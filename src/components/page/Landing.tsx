@@ -1,5 +1,4 @@
-import React from "react";
-import Navbar from "../ui/Navbar";
+
 import Herosection from "../ui/Herosection";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,16 +6,14 @@ import {
   faCartShopping,
   faCircleCheck,
   faLinkSlash,
-  faPercentage,
 } from "@fortawesome/free-solid-svg-icons";
 import { faConfluence } from "@fortawesome/free-brands-svg-icons";
 import { faPercent } from "@fortawesome/free-solid-svg-icons/faPercent";
-import Footer from "../ui/Footer";
+
 
 function Landing() {
   return (
     <div>
-      <Navbar />
       <Herosection />
       <div className="px-6 py-24 flex justify-center flex-col items-center max-w-7xl mx-auto ">
         <h1 className="font-semibold text-5xl">How it worked</h1>

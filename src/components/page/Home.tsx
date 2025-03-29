@@ -4,7 +4,7 @@ import Navbar from "../ui/Navbar";
 function Home() {
   return (
     <div>
-      <Navbar />
+
       <div className="px-6 py-24 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex flex-col gap-5">
           <h1 className="font-normal text-5xl">

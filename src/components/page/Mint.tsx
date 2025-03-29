@@ -8,7 +8,7 @@ function Mint() {
   
   return (
     <div>
-      <Navbar />
+
       <div className="px-52 py-24 flex justify-between items-center max-w-7xl mx-auto">
         <div className=" w-full">
           <div className="flex justify-between w-full mb-16">

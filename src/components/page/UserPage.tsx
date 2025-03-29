@@ -8,7 +8,6 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons'
 function UserPage() {
   return (
     <div>
-        <Navbar/>
         <div className='px-24 py-40 flex justify-between items-center max-w-7xl mx-auto'>
             <div className='flex w-1/2 gap-14'>
                 <div>
