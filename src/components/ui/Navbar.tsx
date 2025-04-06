@@ -8,7 +8,7 @@ import { useWallet } from '../../context/WalletContext';
 
 function Navbar() {
   const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated , setIsAuthenticated } = useAuth();
   const [isConnect, setIsConnect] = useState("Connect"); // Fix destructuring
   const navigate = useNavigate();
   const { selectedWallet, disconnectWallet} = useWallet();
@@ -16,11 +16,22 @@ function Navbar() {
   useEffect(() => {
     if (selectedWallet) {
       setIsConnect("Disconnect");
+      setIsAuthenticated(true)
     } else {
       setIsConnect("Connect");
+      // setShowWalletPopup(true)
+      setIsAuthenticated(false)
     }
   }, [selectedWallet]); // Ensure state updates when `isAuthenticated` changes
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/home');
+    }
+    if (!isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div>
@@ -32,15 +43,15 @@ function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <div className="flex items-center space-x-15 text-lg">
-          <div className="text-black font-medium cursor-pointer" onClick={() => navigate('/home')}>
+        <div className="flex items-center space-x-10 text-lg">
+          {/* <div className="text-black font-medium cursor-pointer" onClick={() => navigate('/home')}>
             Home
           </div>
           <div className="text-black font-medium cursor-pointer">
             About
-          </div>
+          </div> */}
           <button
-            className="bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-7 rounded-full cursor-pointer"
+            className="bg-red-500 hover:bg-red-600 text-white font-medium h-12 px-7 rounded-full cursor-pointer"
             // onClick={() => handleWalletConnect()}
             onClick={() => {
               if (selectedWallet) {
@@ -52,6 +63,9 @@ function Navbar() {
           >
             {isConnect}
           </button>
+          <div className='h-12 w-12 rounded-full bg-amber-500 cursor-pointer'>
+
+          </div>
         </div>
       </nav>
 
