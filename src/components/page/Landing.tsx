@@ -13,7 +13,7 @@ import { faPercent } from "@fortawesome/free-solid-svg-icons/faPercent";
 
 function Landing() {
   return (
-    <div>
+    <div className="bg-gray-700">
       <Herosection />
       <div className="px-6 py-24 flex justify-center flex-col items-center max-w-7xl mx-auto ">
         <h1 className="font-semibold text-5xl">How it worked</h1>

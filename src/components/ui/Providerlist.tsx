@@ -2,9 +2,34 @@ import { formatAddress } from "../../utils";
 import { useWallet } from "../../context/WalletContext";
 import { signMessage } from "../../utils/signmessage";
 import { changeNetwork } from "../../utils/changenetwork";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useShowWalletPopup } from "../../context/ShowWalletPopup";
+import { useAuth } from "../../context/authContext";
 
 function Providerlist() {
   const { userAccount, selectedWallet, connectWallet, providers } = useWallet();
+  const { setShowWalletPopup } = useShowWalletPopup();
+  const navigate = useNavigate()
+  const {setIsAuthenticated} = useAuth();
+
+  const verifySignHash = async (signHash: string, message: string) => {
+    try {
+      const response = await axios.post("http://localhost:5555/api/v1/verify", {
+        message, // Include the message object
+        signature: signHash, // The signature
+        address: userAccount, // The user's wallet address
+      });
+      if(response.data.success){
+        console.log("Signature verified successfully!");
+        setShowWalletPopup(false);
+        setIsAuthenticated(true);
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Error verifying signature:", error);
+    }
+  };
 
   return (
     <div>
@@ -64,8 +89,20 @@ function Providerlist() {
           <button
             onClick={async () => {
               if (selectedWallet) {
-                await signMessage(selectedWallet, userAccount);
-                await changeNetwork(selectedWallet);
+                // const msgParams = {
+                //   address: userAccount,
+                //   timestamp: Date.now(),
+                //   nonce: Math.floor(Math.random() * 1000000),
+                //   purpose: "Sign this message to verify ownership of this wallet.",
+                // };
+                const message = "Sign this message to verify ownership of this wallet."
+                const signHash = await signMessage(selectedWallet, userAccount, message);
+                if (typeof signHash === "string") {
+                  await changeNetwork(selectedWallet);
+                  await verifySignHash(signHash, message); // Pass the message object
+                } else {
+                  console.error("Invalid signHash type:", signHash);
+                }
               }
             }}
             className="bg-[#2B2928] px-7 py-2 rounded-full text-white flex justify-center items-center cursor-pointer"

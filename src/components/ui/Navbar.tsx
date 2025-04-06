@@ -1,10 +1,27 @@
-
 import Providerlist from './Providerlist';
 import { useShowWalletPopup } from '../../context/ShowWalletPopup';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
+import { useEffect, useState } from 'react';
+import { useWallet } from '../../context/WalletContext';
+
 
 function Navbar() {
   const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
-  
+  const { isAuthenticated } = useAuth();
+  const [isConnect, setIsConnect] = useState("Connect"); // Fix destructuring
+  const navigate = useNavigate();
+  const { selectedWallet, disconnectWallet} = useWallet();
+
+  useEffect(() => {
+    if (selectedWallet) {
+      setIsConnect("Disconnect");
+    } else {
+      setIsConnect("Connect");
+    }
+  }, [selectedWallet]); // Ensure state updates when `isAuthenticated` changes
+
+
   return (
     <div>
       {/* Navigation */}
@@ -16,17 +33,24 @@ function Navbar() {
 
         {/* Navigation Links */}
         <div className="flex items-center space-x-15 text-lg">
-          <a href="#" className="text-black font-medium">
+          <div className="text-black font-medium cursor-pointer" onClick={() => navigate('/home')}>
             Home
-          </a>
-          <a href="#" className="text-black font-medium">
+          </div>
+          <div className="text-black font-medium cursor-pointer">
             About
-          </a>
+          </div>
           <button
             className="bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-7 rounded-full cursor-pointer"
-            onClick={() => setShowWalletPopup(true)}
+            // onClick={() => handleWalletConnect()}
+            onClick={() => {
+              if (selectedWallet) {
+                disconnectWallet(selectedWallet);
+              } else {
+                setShowWalletPopup(true);
+              }
+            }}
           >
-            Connect
+            {isConnect}
           </button>
         </div>
       </nav>
