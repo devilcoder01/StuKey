@@ -8,7 +8,7 @@ import { useShowWalletPopup } from "../../context/ShowWalletPopup";
 import { useAuth } from "../../context/authContext";
 
 function SignMessage() {
-  const { userAccount, selectedWallet, connectWallet, providers } = useWallet();
+  const { userAccount, selectedWallet} = useWallet();
   const { setShowWalletPopup } = useShowWalletPopup();
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
@@ -28,6 +28,7 @@ function SignMessage() {
       }
     } catch (error) {
       console.error("Error verifying signature:", error);
+      setIsAuthenticated(false);
     }
   };
   return (

@@ -33,3 +33,4 @@ export const signMessage = async (providerWithInfo: EIP6963ProviderDetail, userA
       console.error("Failed to connect wallet:", error);
     }
   };
+
