@@ -39,12 +39,12 @@ function Providerlist() {
         )}
       </div>
       <hr className="my-4 border-gray-300" />
-      <h2 className="text-lg font-medium">
+      {/* <h2 className="text-lg font-medium">
         {userAccount ? "" : "No "}Wallet Selected
-      </h2>
-      {userAccount && (
+      </h2> */}
+      {/* {userAccount && (
         <SignMessage/>
-      )}
+      )} */}
     </div>
   );
 }

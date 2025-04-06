@@ -11,18 +11,18 @@ function Navbar() {
   const { isAuthenticated , setIsAuthenticated } = useAuth();
   const [isConnect, setIsConnect] = useState("Connect"); // Fix destructuring
   const navigate = useNavigate();
-  const { selectedWallet, disconnectWallet} = useWallet();
+  const {userAccount, selectedWallet, disconnectWallet} = useWallet();
 
   useEffect(() => {
     if (selectedWallet) {
       setIsConnect("Disconnect");
       setIsAuthenticated(true)
+      setShowWalletPopup(false)
     } else {
       setIsConnect("Connect");
-      // setShowWalletPopup(true)
       setIsAuthenticated(false)
     }
-  }, [selectedWallet]); // Ensure state updates when `isAuthenticated` changes
+  }, [selectedWallet, userAccount]); // Ensure state updates when `isAuthenticated` changes
 
   useEffect(() => {
     if (isAuthenticated) {
