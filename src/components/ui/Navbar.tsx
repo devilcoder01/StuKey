@@ -25,12 +25,13 @@ function Navbar() {
   }, [selectedWallet, userAccount]); // Ensure state updates when `isAuthenticated` changes
 
   useEffect(() => {
-    // if (isAuthenticated) {
-    //   navigate('/home');
-    // }
-    // if (!isAuthenticated) {
-    //   navigate('/');
-    // }
+    // Only redirect on initial authentication state change
+    // This prevents redirecting when trying to navigate to other pages
+    if (isAuthenticated && window.location.pathname === '/') {
+      navigate('/home')
+    } else if (!isAuthenticated && window.location.pathname !== '/') {
+      navigate('/')
+    }
   }, [isAuthenticated, navigate]);
 
   return (
@@ -38,7 +39,7 @@ function Navbar() {
       {/* Navigation */}
       <nav className="px-6 py-4 flex justify-between items-center max-w-7xl mx-auto mt-8">
         {/* Logo */}
-        <div className="flex items-center w-44 overflow-hidden">
+        <div className="flex items-center w-44 overflow-hidden cursor-pointer">
           <img src="/icon.svg" alt="logo" className="w-full h-full object-cover" />
         </div>
 

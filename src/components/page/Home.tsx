@@ -1,4 +1,4 @@
-import { Navigate, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate()
@@ -28,10 +28,7 @@ function Home() {
             </div>
             <div className="button my-8">
               <button className=" px-9 py-2 bg-[#2B2928] text-white rounded-full cursor-pointer"
-              onClick={() => {
-                // window.location.href = "/mint";
-                navigate("/mint")
-              }}>
+              onClick={() => navigate("/mint")}>
                 Verify
               </button>
             </div>
