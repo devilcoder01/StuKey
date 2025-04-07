@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react"; // Import useEffect
-import { useSearchParams } from "react-router-dom"; // Import useSearchParams
+import React, { useState } from "react";
 import Score from "../ui/Score";
 import Credential from "../ui/Credential";
 import { faGithub } from "@fortawesome/free-brands-svg-icons"; // Import icons
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-
 function Mint() {
   const [isMinted, setIsMinted] = useState(false); // Renamed state variable
 
@@ -17,41 +15,20 @@ function Mint() {
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
 
-  const [searchParams, setSearchParams] = useSearchParams(); // Hook to read query params
-
-  // Effect to handle GitHub OAuth callback
-  useEffect(() => {
-    const githubConnected = searchParams.get("github_connected");
-    const username = searchParams.get("username"); // Assuming backend sends username
-    const error = searchParams.get("error");
-
-    if (githubConnected === "true" && username) {
-      setIsGithubConnected(true);
-      setGithubUsername(username);
-      // Optionally remove query params from URL after processing
-      searchParams.delete("github_connected");
-      searchParams.delete("username");
-      setSearchParams(searchParams);
-    } else if (githubConnected === "false" || error) {
-      console.error("GitHub connection failed.");
-      // Handle error display if needed
-       searchParams.delete("github_connected");
-       searchParams.delete("error");
-       setSearchParams(searchParams);
-    }
-  }, [searchParams, setSearchParams]); // Depend on searchParams
 
   // --- Handlers for GitHub ---
-  const handleGithubConnect = () => {
-    // Redirect user to the backend endpoint that initiates GitHub OAuth
-    // Make sure the backend URL is correct (including http/https)
-    window.location.href = "http://localhost:5555/api/v1/github/";
+  const handleGithubConnect = async () => {
+    // Add actual GitHub connection logic here (e.g., OAuth flow)
+    // console.log("Connecting GitHub...");
+    // setIsGithubConnected(true);
+    // setGithubUsername("devilcoder01");
+   // Replace with actual username after connection
+  await axios.get("http://localhost:5555/api/v1/github/")
   };
 
   const handleGithubDisconnect = () => {
-    // Add actual GitHub disconnection logic here (e.g., call backend endpoint)
+    // Add actual GitHub disconnection logic here
     console.log("Disconnecting GitHub...");
-    // You might need a backend endpoint to clear the GitHub association
     setIsGithubConnected(false);
     setGithubUsername(null);
   };
@@ -107,7 +84,7 @@ function Mint() {
                 points={20}
                 isConnected={isGithubConnected}
                 username={githubUsername}
-                onConnect={handleGithubConnect} // Updated handler
+                onConnect={handleGithubConnect}
                 onDisconnect={handleGithubDisconnect}
               />
 
