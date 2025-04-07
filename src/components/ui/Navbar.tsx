@@ -25,12 +25,12 @@ function Navbar() {
   }, [selectedWallet, userAccount]); // Ensure state updates when `isAuthenticated` changes
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/home');
-    }
-    if (!isAuthenticated) {
-      navigate('/');
-    }
+    // if (isAuthenticated) {
+    //   navigate('/home');
+    // }
+    // if (!isAuthenticated) {
+    //   navigate('/');
+    // }
   }, [isAuthenticated, navigate]);
 
   return (
