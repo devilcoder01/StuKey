@@ -24,6 +24,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       const accounts = (await providerWithInfo.provider.request({
         method: "eth_requestAccounts",
       })) as string[];
+      localStorage.setItem("selectedWallet", providerWithInfo.info.name);
       setSelectedWallet(providerWithInfo);
       setUserAccount(accounts?.[0]);
     } catch (error) {
@@ -40,6 +41,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
           },
         ],
       });
+      localStorage.removeItem("selectedWallet"); // Remove the selected wallet from localStorage
       setSelectedWallet(null);
       setUserAccount(null);
     } catch (error) {
