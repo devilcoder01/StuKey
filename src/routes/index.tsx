@@ -9,7 +9,7 @@ import { useAuth } from '../context/authContext';
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated } = useAuth();
-
+  console.log(isAuthenticated)
   return (
     <Routes>
       {/* Public routes */}

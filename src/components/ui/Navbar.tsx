@@ -8,7 +8,7 @@ import { useWallet } from '../../context/WalletContext';
 
 function Navbar() {
   const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
-  const { isAuthenticated , setIsAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const [isConnect, setIsConnect] = useState("Connect"); // Fix destructuring
   const navigate = useNavigate();
   const {userAccount, selectedWallet, disconnectWallet} = useWallet();
@@ -16,11 +16,10 @@ function Navbar() {
   useEffect(() => {
     if (selectedWallet) {
       setIsConnect("Disconnect");
-      setIsAuthenticated(true)
       setShowWalletPopup(false)
     } else {
       setIsConnect("Connect");
-      setIsAuthenticated(false)
+      logout();
     }
   }, [selectedWallet, userAccount]); // Ensure state updates when `isAuthenticated` changes
 
@@ -56,7 +55,7 @@ function Navbar() {
             // onClick={() => handleWalletConnect()}
             onClick={() => {
               if (selectedWallet) {
-                disconnectWallet(selectedWallet);
+                disconnectWallet();
               } else {
                 setShowWalletPopup(true);
               }

@@ -68,9 +68,9 @@ const WalletConnectModal: React.FC = () => {
                     />
                     <span className="font-medium">{provider.info.name}</span>
                   </div>
-                  <button className="bg-[#2B2928] px-4 py-2 rounded-full text-white text-sm">
-                    Connect
-                  </button>
+                  <div className="bg-[#2B2928] px-4 py-2 rounded-sm text-white text-sm">
+                    installed
+                  </div>
                 </div>
               ))
             ) : (
