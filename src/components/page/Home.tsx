@@ -1,9 +1,24 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import PageContainer from "../common/PageContainer";
+import { useAuth } from "../../context/authContext";
 
 function Home() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
+
+  // Simulate data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div>
+    <PageContainer title="Dashboard" loading={loading}>
 
       <div className="px-6 py-24 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex flex-col gap-5">
@@ -43,7 +58,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }
 
