@@ -9,7 +9,6 @@ interface PageContainerProps {
 
 const PageContainer: React.FC<PageContainerProps> = ({ 
   children, 
-  title,
   loading = false
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,10 +28,6 @@ const PageContainer: React.FC<PageContainerProps> = ({
   
   return (
     <div className="container mx-auto px-4 py-8">
-      {title && (
-        <h1 className="text-2xl font-bold mb-6">{title}</h1>
-      )}
-      
       {isLoading ? (
         <div className="flex justify-center items-center py-20">
           <LoadingSpinner size="large" text="Loading content..." />
