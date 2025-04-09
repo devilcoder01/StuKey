@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { clearAuthState, getAuthState, saveAuthState, verifySignature } from "../services/auth.service";
 
+/**
+ * login, logout, user, error, isAuthenticated from bakend side
+ */
 interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;

@@ -7,54 +7,51 @@ import { EIP6963ProviderDetail } from '../types/wallet.types';
 export const useWalletAuth = () => {
   const { connectWallet, disconnectWallet, selectedWallet, userAccount } = useWallet();
   const { login, logout } = useAuth();
+
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const connectAndSignIn = async (providerWithInfo: EIP6963ProviderDetail) => {
-    setError(null);
+  // Helper to handle errors
+  const handleError = (message: string) => {
+    setIsSigningIn(false);
+    setError(message);
+    return false;
+  };
+
+  const connectAndSignIn = async (provider: EIP6963ProviderDetail) => {
     setIsSigningIn(true);
+    setError(null);
 
     try {
-      // First connect the wallet
-      await connectWallet(providerWithInfo);
+      // 1. Connect Wallet
+      await connectWallet(provider);
 
       if (!selectedWallet || !userAccount) {
-        throw new Error('Failed to connect wallet');
+        return handleError('Failed to connect wallet');
       }
 
-      // Prepare to sign message
-
-      // Then sign the message
+      // 2. Sign Message
       const message = "Sign this message to verify ownership of this wallet.";
       const signature = await signMessage(selectedWallet, userAccount, message);
 
       if (typeof signature !== 'string') {
-        throw new Error('Failed to sign message');
+        return handleError('Failed to sign message');
       }
 
-      // Verify signature
-
-      // Finally authenticate with the backend
+      // 3. Login (auth backend)
       await login(userAccount, signature);
 
       setIsSigningIn(false);
       return true;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Authentication failed');
-      setIsSigningIn(false);
-      return false;
+      return handleError(err instanceof Error ? err.message : 'Authentication failed');
     }
   };
 
   const signOut = async () => {
-    // Start sign out process
     try {
-      // First log out from the auth context
       logout();
-
-      // Then disconnect the wallet
       await disconnectWallet();
-
       return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to sign out');
@@ -62,9 +59,7 @@ export const useWalletAuth = () => {
     }
   };
 
-  const clearError = () => {
-    setError(null);
-  };
+  const clearError = () => setError(null);
 
   return {
     connectAndSignIn,
