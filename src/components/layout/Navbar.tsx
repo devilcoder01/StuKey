@@ -5,7 +5,7 @@ import { useShowWalletPopup } from "../../context/ShowWalletPopup";
 import { useAuth } from "../../context/authContext";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import LoadingSpinner from "../common/LoadingSpinner";
-
+import { formatAddress } from "../../utils"; // Use shared function
 
 function Navbar() {
   const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
@@ -15,13 +15,6 @@ function Navbar() {
   const [buttonText, setButtonText] = useState("Connect");
   const navigate = useNavigate();
 
-  // Format address for display (e.g., 0x1234...5678)
-  const formatAddress = (address: string | null) => {
-    if (!address) return "";
-    return `${address.substring(0, 6)}...${address.substring(
-      address.length - 4
-    )}`;
-  };
   // console.log(isConnecting, authLoading,isSigningIn)
 
   useEffect(() => {

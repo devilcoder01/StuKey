@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useSyncProviders } from "../hooks/useSyncProviders";
 import { EIP6963ProviderDetail } from "../types/wallet.types";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 /**
  *   connectWallet,
   disconnectWallet,
@@ -148,7 +147,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     const onAccountsChanged = (accounts: string[]) => {
       if (accounts.length === 0) disconnectWallet();
-      else setState(prev => ({ ...prev, userAccount: accounts[0] }));
+      else setState(prev => ({ ...prev, userAccount: accounts[0], isConnected: true }));
     };
 
     const onChainChanged = (chainId: string) => {

@@ -12,7 +12,6 @@ const AppRoutes: React.FC = () => {
   const {isSigningIn} = useWalletAuth();
   const { isAuthenticated } = useAuth();
   const [isPermission, setIsPermission] = useState(false);
-  // console.log(isAuthenticated)
   useEffect(() => {
     if(isAuthenticated && isSigningIn){
       setIsPermission(true);
