@@ -51,9 +51,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
             })) as string[];
 
             if (accounts && accounts.length > 0) {
-              const chainId = await savedProvider.provider.request({
+              const chainId = (await savedProvider.provider.request({
                 method: "eth_chainId",
-              }) as string;
+              })) as string;
 
               setState({
                 ...state,
@@ -89,9 +89,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error("No accounts found");
       }
 
-      const chainId = await providerWithInfo.provider.request({
+      const chainId = (await providerWithInfo.provider.request({
         method: "eth_chainId",
-      }) as string;
+      })) as string;
 
       localStorage.setItem("selectedWallet", providerWithInfo.info.name);
 
@@ -109,7 +109,8 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       setState({
         ...state,
         isConnecting: false,
-        error: error instanceof Error ? error.message : "Failed to connect wallet",
+        error:
+          error instanceof Error ? error.message : "Failed to connect wallet",
       });
     }
   };
@@ -133,12 +134,18 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       localStorage.removeItem("selectedWallet");
+      localStorage.removeItem("auth_address");
+      localStorage.removeItem("auth_signature");
+      localStorage.removeItem("auth_timestamp");
       setState(initialState);
     } catch (error) {
       console.error("Failed to disconnect wallet:", error);
       setState({
         ...state,
-        error: error instanceof Error ? error.message : "Failed to disconnect wallet",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to disconnect wallet",
       });
     }
   };
@@ -168,7 +175,8 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error("Failed to switch chain:", error);
       setState({
         ...state,
-        error: error instanceof Error ? error.message : "Failed to switch chain",
+        error:
+          error instanceof Error ? error.message : "Failed to switch chain",
       });
       return false;
     }
@@ -208,15 +216,27 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       };
 
       // Set up listeners
-      state.selectedWallet.provider.on("accountsChanged", handleAccountsChanged);
+      state.selectedWallet.provider.on(
+        "accountsChanged",
+        handleAccountsChanged
+      );
       state.selectedWallet.provider.on("chainChanged", handleChainChanged);
       state.selectedWallet.provider.on("disconnect", handleDisconnect);
 
       // Cleanup listeners when selectedWallet changes or component unmounts
       return () => {
-        state.selectedWallet.provider.removeListener("accountsChanged", handleAccountsChanged);
-        state.selectedWallet.provider.removeListener("chainChanged", handleChainChanged);
-        state.selectedWallet.provider.removeListener("disconnect", handleDisconnect);
+        state.selectedWallet.provider.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+        state.selectedWallet.provider.removeListener(
+          "chainChanged",
+          handleChainChanged
+        );
+        state.selectedWallet.provider.removeListener(
+          "disconnect",
+          handleDisconnect
+        );
       };
     }
   }, [state.selectedWallet]);

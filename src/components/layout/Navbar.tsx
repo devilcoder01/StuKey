@@ -5,8 +5,7 @@ import { useShowWalletPopup } from "../../context/ShowWalletPopup";
 import { useAuth } from "../../context/authContext";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { logout } from "../../utils/api";
-import { log } from "console";
+
 
 function Navbar() {
   const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
@@ -23,7 +22,7 @@ function Navbar() {
       address.length - 4
     )}`;
   };
-  console.log(isConnecting, authLoading,isSigningIn)
+  // console.log(isConnecting, authLoading,isSigningIn)
 
   useEffect(() => {
     if (selectedWallet && isAuthenticated) {

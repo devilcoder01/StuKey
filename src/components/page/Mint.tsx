@@ -1,23 +1,45 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Score from "../ui/Score";
 import Credential from "../ui/Credential";
 import { faGithub } from "@fortawesome/free-brands-svg-icons"; // Import icons
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useWallet } from "../../context/WalletContext";
-
+import {  useStudentContract } from "../../utils/ContractInterection";
 function Mint() {
-  const [isMinted, setIsMinted] = useState(false); // Renamed state variable
+  const [isMinted] = useState(false); // State to track if NFT is minted
   const { userAccount } = useWallet();
   // State for GitHub Credential
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const [githubUsername, setGithubUsername] = useState<string | null>(null);
   const [engagePoint, setengagePoint] = useState<number | null>(null);
+  const [isminted, setisminted] = useState(false);
 
   // State for Email Credential (Example)
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
+
+  const {getScoreandNFT , mintNFT} = useStudentContract();
+  
+  const handleGetScore = async () => {
+    if (!userAccount) {
+      console.error("No wallet connected");
+      return;
+    }
+    const result = await getScoreandNFT(userAccount);
+    if (result.success) {
+      setengagePoint(parseInt(result.score));
+    } else {
+      console.error(result.error);
+    }
+  };
+  
   useEffect(() => {
+    handleGetScore();
+  }, [userAccount]);
+
+  useEffect(() => {
+    
     try {
       axios.get("http://localhost:5555/api/v1/user", {
         headers : {
@@ -36,10 +58,11 @@ function Mint() {
     }
   }, [userAccount]); // Ensure the effect runs only when `userAccount` changes
 
+
   // --- Handlers for GitHub ---
   const handleGithubConnect = async () => {
     window.location.href = "http://localhost:5555/api/v1/auth/github/";
-   
+
   };
 
   const handleGithubDisconnect = () => {
@@ -79,9 +102,11 @@ function Mint() {
                 </div>
               </div>
               <div className="my-11">
-                <span className="px-6 py-3 bg-[#2B2928] text-white rounded-full cursor-pointer">
+                <button
+                onClick={() => mintNFT(userAccount,36)}
+                 className="px-6 py-3 bg-[#2B2928] text-white rounded-full cursor-pointer">
                   {isMinted ? "Minted" : "Mint Score"} {/* Use renamed state */}
-                </span>
+                </button>
               </div>
             </div>
             <div>

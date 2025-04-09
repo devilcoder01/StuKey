@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../components/page/Home';
 import Mint from '../components/page/Mint';
@@ -6,16 +6,29 @@ import Landing from '../components/page/Landing';
 import UserPage from '../components/page/UserPage';
 import ProtectedRoute from './ProtectedRoute';
 import { useAuth } from '../context/authContext';
+import { useWalletAuth } from '../hooks/useWalletAuth';
 
 const AppRoutes: React.FC = () => {
+  const {isSigningIn} = useWalletAuth();
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated)
+  const [isPermission, setIsPermission] = useState(false);
+  // console.log(isAuthenticated)
+  useEffect(() => {
+    if(isAuthenticated && isSigningIn){
+      setIsPermission(true);
+    }
+    else{
+      setIsPermission(false);
+    }
+  }
+  , [isAuthenticated, isSigningIn]);
+
   return (
     <Routes>
       {/* Public routes */}
       <Route 
         path="/" 
-        element={isAuthenticated ? <Navigate to="/home" /> : <Landing />} 
+        element={isPermission ? <Navigate to="/home" /> : <Landing />} 
       />
       
       {/* Protected routes */}
