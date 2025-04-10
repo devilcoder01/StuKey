@@ -1,23 +1,24 @@
-import React from 'react';
-import { useShowWalletPopup } from '../../context/ShowWalletPopup';
-import { useWallet } from '../../context/WalletContext';
-import { useWalletAuth } from '../../hooks/useWalletAuth';
-import { useNavigate } from 'react-router-dom';
-import LoadingSpinner from './LoadingSpinner';
-import { EIP6963ProviderDetail } from '../../types/wallet.types';
+import React from "react";
+import { useShowWalletPopup } from "../../context/ShowWalletPopup";
+import { useWallet } from "../../context/WalletContext";
+import { useWalletAuth } from "../../hooks/useWalletAuth";
+import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
+import { EIP6963ProviderDetail } from "../../types/wallet.types";
 
-const WalletConnectModal:  React.FC = () => {
+const WalletConnectModal: React.FC = () => {
   const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
-  const { providers, isWalletConnecting } = useWallet();
-  const { connectAndSignIn, error } = useWalletAuth();
+  const { providers, isWalletConnecting, selectedWallet, userAccount } =
+    useWallet();
+  const { signinMessage, error, walletConnect } = useWalletAuth();
   const navigate = useNavigate();
 
   if (!showWalletPopup) {
     return null;
   }
 
-  const handleConnectWallet = async (provider: EIP6963ProviderDetail) => {
-    const success = await connectAndSignIn(provider);
+  const hangleSignin = async () => {
+    const success = await signinMessage();
     if (success) {
       setShowWalletPopup(false);
       navigate("/home");
@@ -31,7 +32,7 @@ const WalletConnectModal:  React.FC = () => {
           <h2 className="text-xl font-semibold">Connect Wallet</h2>
           <button
             onClick={() => setShowWalletPopup(false)}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 hover:text-gray-700 cursor-pointer"
           >
             &times;
           </button>
@@ -57,7 +58,7 @@ const WalletConnectModal:  React.FC = () => {
               providers.map((provider) => (
                 <div
                   key={provider.info.uuid}
-                  onClick={() => handleConnectWallet(provider)}
+                  onClick={() => walletConnect(provider)}
                   className="flex items-center justify-between p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
                 >
                   <div className="flex items-center">
@@ -76,6 +77,33 @@ const WalletConnectModal:  React.FC = () => {
             ) : (
               <div className="text-center py-4 text-gray-500">
                 No wallet providers detected. Please install a wallet extension.
+              </div>
+            )}
+
+            {userAccount && selectedWallet && (
+              <div>
+                <div className="h-0.5 bg-gray-300 rounded-full"></div>
+                <div className="text-left py-4 text-gray-500">
+                  Sign in to continue
+                </div>
+                <div className="flex items-center justify-between p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                  <div className="flex items-center">
+                    <img
+                      src={selectedWallet?.info?.icon || ""}
+                      alt={selectedWallet?.info?.name || ""}
+                      className="w-8 h-8 mr-3"
+                    />
+                    <span className="font-medium">
+                      {selectedWallet?.info?.name || ""}
+                    </span>
+                  </div>
+                  <button
+                    className="bg-[#FE0444] px-4 py-2 rounded-sm text-white text-sm cursor-pointer"
+                    onClick={() => hangleSignin()}
+                  >
+                    Sign in
+                  </button>
+                </div>
               </div>
             )}
           </div>

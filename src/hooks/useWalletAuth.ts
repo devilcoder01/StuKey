@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { useWallet } from '../context/WalletContext';
-import { useSignAuth } from '../context/authSingnatureContext';
-import { signMessage } from '../utils/signmessage';
-import { EIP6963ProviderDetail } from '../types/wallet.types';
+import { useState } from "react";
+import { useWallet } from "../context/WalletContext";
+import { useSignAuth } from "../context/authSingnatureContext";
+import { signMessage } from "../utils/signmessage";
+import { EIP6963ProviderDetail } from "../types/wallet.types";
 
 export const useWalletAuth = () => {
-  const { connectWallet, disconnectWallet, selectedWallet, userAccount } = useWallet();
+  const { connectWallet, disconnectWallet, selectedWallet, userAccount } =
+    useWallet();
   const { login, logout } = useSignAuth();
   const [error, setError] = useState<string | null>(null);
 
@@ -13,6 +14,43 @@ export const useWalletAuth = () => {
   const handleError = (message: string) => {
     setError(message);
     return false;
+  };
+
+  const walletConnect = async (provider: EIP6963ProviderDetail) => {
+    try {
+      await connectWallet(provider);
+      return true;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to connect wallet");
+    }
+  };
+
+  const signinMessage = async () => {
+    try
+    {
+
+      if (!selectedWallet || !userAccount) {
+        return handleError("Failed to connect wallet");
+      }
+      
+      // 2. Sign Message
+      const message = "Sign this message to verify ownership of this wallet.";
+      const signature = await signMessage(selectedWallet, userAccount, message);
+      
+      if (typeof signature !== "string") {
+        return handleError("Failed to sign message");
+      }
+      
+      // 3. Login (auth backend)
+      await login(userAccount, signature);
+      
+      return true;
+    }
+    catch (err) {
+      return handleError(
+        err instanceof Error ? err.message : "Fail to sign the message"
+      );
+    }
   };
 
   const connectAndSignIn = async (provider: EIP6963ProviderDetail) => {
@@ -23,15 +61,15 @@ export const useWalletAuth = () => {
       await connectWallet(provider);
 
       if (!selectedWallet || !userAccount) {
-        return handleError('Failed to connect wallet');
+        return handleError("Failed to connect wallet");
       }
 
       // 2. Sign Message
       const message = "Sign this message to verify ownership of this wallet.";
       const signature = await signMessage(selectedWallet, userAccount, message);
 
-      if (typeof signature !== 'string') {
-        return handleError('Failed to sign message');
+      if (typeof signature !== "string") {
+        return handleError("Failed to sign message");
       }
 
       // 3. Login (auth backend)
@@ -39,7 +77,9 @@ export const useWalletAuth = () => {
 
       return true;
     } catch (err) {
-      return handleError(err instanceof Error ? err.message : 'Authentication failed');
+      return handleError(
+        err instanceof Error ? err.message : "Authentication failed"
+      );
     }
   };
 
@@ -49,7 +89,7 @@ export const useWalletAuth = () => {
       await disconnectWallet();
       return true;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign out');
+      setError(err instanceof Error ? err.message : "Failed to sign out");
       return false;
     }
   };
@@ -61,5 +101,7 @@ export const useWalletAuth = () => {
     signOut,
     error,
     clearError,
+    walletConnect,
+    signinMessage
   };
 };
