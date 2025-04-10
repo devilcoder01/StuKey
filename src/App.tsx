@@ -8,6 +8,7 @@ import AppRoutes from "./routes";
 import ToastContainer from "./components/common/ToastContainer";
 import { UserInormationProvider } from "./context/userInformation";
 import WalletConnectModal from "./components/common/WalletConnectModal";
+import AppInitializer from "./components/common/AppInitializer";
 
 function App() {
   return (
@@ -17,14 +18,16 @@ function App() {
           <ToastProvider>
             <UserInormationProvider>
               <Router>
-                <div className="flex flex-col min-h-screen">
-                  <Navbar />
-                  <main className="flex-grow">
-                    <AppRoutes />
-                  </main>
-                  <WalletConnectModal />
-                  <ToastContainer />
-                </div>
+                <AppInitializer>
+                  <div className="flex flex-col min-h-screen">
+                    <Navbar />
+                    <main className="flex-grow">
+                      <AppRoutes />
+                    </main>
+                    <WalletConnectModal />
+                    <ToastContainer />
+                  </div>
+                </AppInitializer>
               </Router>
             </UserInormationProvider>
           </ToastProvider>

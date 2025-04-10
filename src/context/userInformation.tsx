@@ -20,6 +20,7 @@ interface seterUserinformation extends UserInformation {
   setGithubUsername: (githubUsername: string | null) => void;
   setEngagementScore: (engagementScore: number | null) => void;
   setNftTokenId: (nftTokenId: number | null) => void;
+  setAllUserData: (userData: Partial<UserInformation>) => void;
 }
 const defaultUserInformation: UserInformation = {
   userName: "Stranger",
@@ -35,18 +36,14 @@ export const UserInormationProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [state, setState] = useState<UserInformation>(defaultUserInformation);
-  
-  // const setUserData = (props: UserInformation | null) => {
-  //   if(props){
-  //     setState((prev) => ({
-  //       ...prev,
-  //       userName: props.userName,
-  //       walletAddress: props.walletAddress,
-  //       email : props.email,
-  //       github
-  //     }))
-  //   }
-  // }
+
+  // Function to set all user data at once
+  const setAllUserData = (userData: Partial<UserInformation>) => {
+    setState((prev) => ({
+      ...prev,
+      ...userData
+    }));
+  };
 
   const setUserName = (username: string | null) => {
     setState((prev) => ({
@@ -100,6 +97,7 @@ export const UserInormationProvider: React.FC<{
         setGithubUsername,
         setEngagementScore,
         setNftTokenId,
+        setAllUserData
       }}
     >
       {children}

@@ -4,8 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faMessage } from '@fortawesome/free-solid-svg-icons'
+import { useUserdetail } from '../../context/userInformation'
+import { formatAddress } from '../../utils'
 
 function UserPage() {
+  const { userName, email, walletAddress, githubUsername, engagementScore } = useUserdetail();
+
+  // Format wallet address for display
+  const displayAddress = walletAddress ? formatAddress(walletAddress) : '0x0000...0000';
   return (
     <div>
         <div className='px-24 py-40 flex justify-between items-center max-w-7xl mx-auto'>
@@ -25,11 +31,15 @@ function UserPage() {
                     </div>
                 </div>
                 <div>
-                    <div className="walletadddr text-sm font-normal mb-8">0x5d28....a294c4f</div>
+                    <div className="walletadddr text-sm font-normal mb-8">{displayAddress}</div>
                     <div className='flex flex-col gap-4'>
-                        <div className="name flex text-xl"><span className='font-bold'>Name:</span><span>Subhadip</span></div>
-                        <div className="name flex text-xl"><span className='font-bold'>Email:</span><span>subhadipjana69@gmail.com</span></div>
-                    </div> 
+                        <div className="name flex text-xl"><span className='font-bold mr-2'>Name:</span><span>{userName || 'Not set'}</span></div>
+                        <div className="name flex text-xl"><span className='font-bold mr-2'>Email:</span><span>{email || 'Not set'}</span></div>
+                        {githubUsername && (
+                          <div className="name flex text-xl"><span className='font-bold mr-2'>GitHub:</span><span>{githubUsername}</span></div>
+                        )}
+                        <div className="name flex text-xl"><span className='font-bold mr-2'>Score:</span><span>{engagementScore || 0}</span></div>
+                    </div>
                     <div className="mt-7 text-xl"><button className='px-7 py-1 bg-[#2B2928] text-white rounded-lg cursor-pointer'>Edit</button></div>
                 </div>
             </div>

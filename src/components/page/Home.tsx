@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import ToastDemo from "../common/ToastDemo";
 import { useUserdetail } from "../../context/userInformation";
+import { useEffect } from "react";
 
 function Home() {
   const navigate = useNavigate();
-  const {userName} = useUserdetail();
+  const { userName, engagementScore, nftTokenId } = useUserdetail();
+
+  // Determine verification status based on NFT token ID
+  const verificationStatus = nftTokenId ? "Verified" : "Pending";
   return (
 
       <div>
@@ -22,11 +26,11 @@ function Home() {
               <div>
                 <div className="flex my-4 gap-2">
                   <span className="text-xl font-semibold ">Verification: </span>{" "}
-                  <span className="text-xl">Pending</span>
+                  <span className="text-xl">{verificationStatus}</span>
                 </div>
                 <div className="flex my-4 gap-2">
                   <span className="text-xl font-semibold">Stukey Score:</span>
-                  <span className="text-xl">0</span>
+                  <span className="text-xl">{engagementScore || 0}</span>
                 </div>
               </div>
               <div className="button my-8">
