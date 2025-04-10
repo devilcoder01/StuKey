@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { formatAddress } from "../../utils";
 import { useWallet } from "../../context/WalletContext";
 import { signMessage } from "../../utils/signmessage";
@@ -5,32 +6,65 @@ import { changeNetwork } from "../../utils/changenetwork";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useShowWalletPopup } from "../../context/ShowWalletPopup";
-import { useAuth } from "../../context/authContext";
+import { useSignAuth } from "../../context/authSingnatureContext";
+import { useToastNotification } from "../../hooks/useToastNotification";
 
 function SignMessage() {
-  const { userAccount, selectedWallet} = useWallet();
+  const { userAccount, selectedWallet } = useWallet();
   const { setShowWalletPopup } = useShowWalletPopup();
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { showSuccess, showError } = useToastNotification();
+  const {login} = useSignAuth();
 
   const verifySignHash = async (signHash: string, message: string) => {
     try {
       const response = await axios.post("http://localhost:5555/api/v1/verify", {
-        message, // Include the message object
-        signature: signHash, // The signature
-        address: userAccount, // The user's wallet address
+        message,
+        signature: signHash,
+        address: userAccount,
       });
       if (response.data.success) {
-        console.log("Signature verified successfully!");
+        showSuccess("Signature verified successfully!");
         setShowWalletPopup(false);
-        setIsAuthenticated(true);
         navigate("/home");
+      } else {
+        console.error("Signature verification failed.");
+        showError("Signature verification failed!");
       }
     } catch (error) {
       console.error("Error verifying signature:", error);
-      setIsAuthenticated(false);
+      showError("Failed to verify signature!");
     }
   };
+
+  const handleSignIn = async () => {
+    if (!selectedWallet) return;
+
+    setLoading(true);
+    try {
+      const message = "Sign this message to verify ownership of this wallet.";
+      if (!userAccount) {
+        showError("User account is not available.");
+        setLoading(false);
+        return;
+      }
+      const signHash = await signMessage(selectedWallet, userAccount, message);
+      if (typeof signHash === "string") {
+        await changeNetwork(selectedWallet);
+        await verifySignHash(signHash, message);
+      } else {
+        console.error("Invalid signHash type:", signHash);
+        showError("Invalid signature.");
+      }
+    } catch (err) {
+      console.error("Signing error:", err);
+      showError("Error signing message.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <div className="mt-4 p-4 border border-gray-300 rounded-full bg-gray-50 flex justify-between items-center">
@@ -44,36 +78,17 @@ function SignMessage() {
             <div className="font-bold text-lg">
               {selectedWallet?.info?.name || ""}
             </div>
-            <div className="text-gray-600">({formatAddress(userAccount)})</div>
+            <div className="text-gray-600">({formatAddress(userAccount || "")})</div>
           </div>
         </div>
         <button
-          onClick={async () => {
-            if (selectedWallet) {
-              // const msgParams = {
-              //   address: userAccount,
-              //   timestamp: Date.now(),
-              //   nonce: Math.floor(Math.random() * 1000000),
-              //   purpose: "Sign this message to verify ownership of this wallet.",
-              // };
-              const message =
-                "Sign this message to verify ownership of this wallet.";
-              const signHash = await signMessage(
-                selectedWallet,
-                userAccount,
-                message
-              );
-              if (typeof signHash === "string") {
-                await changeNetwork(selectedWallet);
-                await verifySignHash(signHash, message); // Pass the message object
-              } else {
-                console.error("Invalid signHash type:", signHash);
-              }
-            }
-          }}
-          className="bg-[#2B2928] px-7 py-2 rounded-full text-white flex justify-center items-center cursor-pointer"
+          onClick={handleSignIn}
+          disabled={loading}
+          className={`${
+            loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+          } bg-[#2B2928] px-7 py-2 rounded-full text-white flex justify-center items-center`}
         >
-          Sign in
+          {loading ? "Signing..." : "Sign in"}
         </button>
       </div>
     </div>

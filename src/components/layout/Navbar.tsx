@@ -1,39 +1,32 @@
 import { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useWallet } from "../../context/WalletContext";
 import { useShowWalletPopup } from "../../context/ShowWalletPopup";
-import { useAuth } from "../../context/authContext";
+import { useSignAuth } from "../../context/authSingnatureContext";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import LoadingSpinner from "../common/LoadingSpinner";
-
+import { formatAddress } from "../../utils"; // Use shared function
 
 function Navbar() {
-  const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
-  const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const { userAccount, selectedWallet, isConnecting } = useWallet();
-  const { signOut, isSigningIn } = useWalletAuth();
+  const { setShowWalletPopup } = useShowWalletPopup();
+  const { isAuthenticated, isAuthPending } = useSignAuth();
+  const { userAccount, isWalletConnecting, isConnected } = useWallet();
+  const { signOut } = useWalletAuth();
   const [buttonText, setButtonText] = useState("Connect");
   const navigate = useNavigate();
 
-  // Format address for display (e.g., 0x1234...5678)
-  const formatAddress = (address: string | null) => {
-    if (!address) return "";
-    return `${address.substring(0, 6)}...${address.substring(
-      address.length - 4
-    )}`;
-  };
-  // console.log(isConnecting, authLoading,isSigningIn)
-
   useEffect(() => {
-    if (selectedWallet && isAuthenticated) {
+    console.log(isWalletConnecting, isAuthenticated)
+    if (isConnected ) {
       setButtonText("Disconnect");
     } else {
       setButtonText("Connect");
-    }
-  }, [selectedWallet, isAuthenticated]);
+    };
+
+  }, [isConnected, isAuthenticated]);
 
   const handleWalletAction = async () => {
-    if (isAuthenticated && selectedWallet) {
+    if (isConnected) {
       await signOut();
       navigate("/");
     } else {
@@ -56,7 +49,7 @@ function Navbar() {
           </div>
 
           <div className="flex items-center space-x-5">
-            {isAuthenticated && (
+            {isAuthenticated && isConnected && (
               <>
                 <button
                   onClick={() => navigate("/home")}
@@ -81,10 +74,10 @@ function Navbar() {
 
             <button
               onClick={handleWalletAction}
-              disabled={isConnecting || isSigningIn || authLoading}
+              disabled={isWalletConnecting || isAuthPending}
               className="bg-[#2B2928] px-5 h-11 rounded-full text-white flex justify-center items-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isConnecting || isSigningIn || authLoading ? (
+              {isWalletConnecting || isAuthPending ? (
                 <div className="flex items-center">
                   <LoadingSpinner size="small" color="border-white" />
                   <span className="ml-2">{buttonText}</span>
@@ -93,7 +86,7 @@ function Navbar() {
                 buttonText
               )}
             </button>
-            {isAuthenticated && userAccount && (
+            {isAuthenticated && isConnected && (
               <div className="text-sm text-gray-600 mr-2">
                 {/* {formatAddress(userAccount)} */}
                 <div className="h-11 w-11 rounded-full bg-amber-500 cursor-pointer"></div>

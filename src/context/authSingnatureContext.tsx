@@ -1,9 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { clearAuthState, getAuthState, saveAuthState, verifySignature } from "../services/auth.service";
 
+/**
+ * login, logout, user, error, isAuthenticated from bakend side
+ */
 interface AuthState {
   isAuthenticated: boolean;
-  isLoading: boolean;
+  isAuthPending: boolean;
   error: string | null;
   user: {
     address: string | null;
@@ -19,7 +22,7 @@ interface AuthContextProps extends AuthState {
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  isLoading: true,
+  isAuthPending: true,
   error: null,
   user: null,
 };
@@ -38,7 +41,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (authState) {
           setState({
             isAuthenticated: true,
-            isLoading: false,
+            isAuthPending: false,
             error: null,
             user: {
               address: authState.address,
@@ -48,13 +51,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         } else {
           setState({
             ...initialState,
-            isLoading: false,
+            isAuthPending: false,
           });
         }
       } catch (error) {
         setState({
           isAuthenticated: false,
-          isLoading: false,
+          isAuthPending: false,
           error: 'Failed to restore authentication session',
           user: null,
         });
@@ -67,7 +70,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (address: string, signature: string) => {
     setState({
       ...state,
-      isLoading: true,
+      isAuthPending: true,
       error: null,
     });
 
@@ -81,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         setState({
           isAuthenticated: true,
-          isLoading: false,
+          isAuthPending: false,
           error: null,
           user: {
             address,
@@ -91,7 +94,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       } else {
         setState({
           isAuthenticated: false,
-          isLoading: false,
+          isAuthPending: false,
           error: 'Authentication failed',
           user: null,
         });
@@ -99,7 +102,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (error) {
       setState({
         isAuthenticated: false,
-        isLoading: false,
+        isAuthPending: false,
         error: 'Authentication failed',
         user: null,
       });
@@ -110,7 +113,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     clearAuthState();
     setState({
       isAuthenticated: false,
-      isLoading: false,
+      isAuthPending: false,
       error: null,
       user: null,
     });
@@ -137,7 +140,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-export const useAuth = (): AuthContextProps => {
+export const useSignAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
