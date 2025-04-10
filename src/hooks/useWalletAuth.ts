@@ -24,6 +24,7 @@ export const useWalletAuth = () => {
       showSuccess("Wallet connected successfully!");
       return true;
     } catch (err) {
+      showError("Failed to connect wallet");
       setError(err instanceof Error ? err.message : "Failed to connect wallet");
     }
   };
@@ -39,8 +40,10 @@ export const useWalletAuth = () => {
       const signature = await signMessage(selectedWallet, userAccount, message);
 
       if (typeof signature !== "string") {
+        
         return handleError("Failed to sign message");
       }
+    
 
       // 3. Login (auth backend)
       await login(userAccount, signature);
@@ -48,6 +51,7 @@ export const useWalletAuth = () => {
 
       return true;
     } catch (err) {
+      showError("Failed to sign the message");
       return handleError(
         err instanceof Error ? err.message : "Fail to sign the message"
       );

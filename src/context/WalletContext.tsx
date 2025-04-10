@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import { useSyncProviders } from "../hooks/useSyncProviders";
 import { EIP6963ProviderDetail } from "../types/wallet.types";
 /**
- *   connectWallet,
+ *   
+ *connectWallet,
   disconnectWallet,
   switchChain,
   clearError,

@@ -38,11 +38,11 @@ const WalletConnectModal: React.FC = () => {
           </button>
         </div>
 
-        {error && (
+        {/* {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
             {error}
           </div>
-        )}
+        )} */}
 
         {isWalletConnecting ? (
           <div className="flex justify-center items-center py-8">
