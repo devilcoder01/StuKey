@@ -7,18 +7,19 @@ import { EIP6963ProviderDetail } from "../types/wallet.types";
   switchChain,
   clearError,
   providers,
-  isConnecting,
+  isWalletConnecting,
   error,
   userAccount,
   selectedWallet,
   chainId,
+  isConnected
 
   👆 This all can be accessable anywhere in the components
  */
 
 
 type WalletState = {
-  isConnecting: boolean;
+  isWalletConnecting: boolean;
   error: string | null;
   userAccount: string | null;
   selectedWallet: EIP6963ProviderDetail | null;
@@ -35,7 +36,7 @@ type WalletContextType = WalletState & {
 };
 
 const defaultState: WalletState = {
-  isConnecting: false,
+  isWalletConnecting: false,
   error: null,
   userAccount: null,
   selectedWallet: null,
@@ -66,6 +67,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           ...defaultState,
           userAccount: account,
           selectedWallet: found,
+          isConnected: true,
           chainId,
         });
       } catch {
@@ -76,7 +78,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [providers]);
 
   const connectWallet = useCallback(async (provider: EIP6963ProviderDetail) => {
-    setState(prev => ({ ...prev, isConnecting: true, error: null }));
+    setState(prev => ({ ...prev, isWalletConnecting: true, error: null }));
 
     try {
       const [account] = await provider.provider.request({ method: "eth_requestAccounts" });
@@ -85,7 +87,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       localStorage.setItem("selectedWallet", provider.info.name);
 
       setState({
-        isConnecting: false,
+        isWalletConnecting: false,
         error: null,
         userAccount: account,
         selectedWallet: provider,
@@ -95,7 +97,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     } catch (err: any) {
       setState(prev => ({
         ...prev,
-        isConnecting: false,
+        isWalletConnecting: false,
         isConnected: false,
         error: err?.message || "Failed to connect wallet",
       }));

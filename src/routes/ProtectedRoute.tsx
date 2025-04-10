@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/authContext';
+import { useSignAuth } from '../context/authSingnatureContext';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
 interface ProtectedRouteProps {
@@ -12,11 +12,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   redirectPath = '/'
 }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isAuthPending } = useSignAuth();
   const location = useLocation();
 
   // Show loading state while checking authentication
-  if (isLoading) {
+  if (isAuthPending) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <LoadingSpinner size="large" text="Verifying authentication..." />

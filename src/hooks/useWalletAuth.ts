@@ -1,25 +1,21 @@
 import { useState } from 'react';
 import { useWallet } from '../context/WalletContext';
-import { useAuth } from '../context/authContext';
+import { useSignAuth } from '../context/authSingnatureContext';
 import { signMessage } from '../utils/signmessage';
 import { EIP6963ProviderDetail } from '../types/wallet.types';
 
 export const useWalletAuth = () => {
   const { connectWallet, disconnectWallet, selectedWallet, userAccount } = useWallet();
-  const { login, logout } = useAuth();
-
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const { login, logout } = useSignAuth();
   const [error, setError] = useState<string | null>(null);
 
   // Helper to handle errors
   const handleError = (message: string) => {
-    setIsSigningIn(false);
     setError(message);
     return false;
   };
 
   const connectAndSignIn = async (provider: EIP6963ProviderDetail) => {
-    setIsSigningIn(true);
     setError(null);
 
     try {
@@ -41,7 +37,6 @@ export const useWalletAuth = () => {
       // 3. Login (auth backend)
       await login(userAccount, signature);
 
-      setIsSigningIn(false);
       return true;
     } catch (err) {
       return handleError(err instanceof Error ? err.message : 'Authentication failed');
@@ -64,7 +59,6 @@ export const useWalletAuth = () => {
   return {
     connectAndSignIn,
     signOut,
-    isSigningIn,
     error,
     clearError,
   };

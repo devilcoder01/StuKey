@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import { EIP6963ProviderDetail } from '../../types/wallet.types';
 
-const WalletConnectModal: React.FC = () => {
+const WalletConnectModal:  React.FC = () => {
   const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
-  const { providers } = useWallet();
-  const { connectAndSignIn, isSigningIn, error } = useWalletAuth();
+  const { providers, isWalletConnecting } = useWallet();
+  const { connectAndSignIn, error } = useWalletAuth();
   const navigate = useNavigate();
 
   if (!showWalletPopup) {
@@ -20,12 +20,12 @@ const WalletConnectModal: React.FC = () => {
     const success = await connectAndSignIn(provider);
     if (success) {
       setShowWalletPopup(false);
-      navigate('/home');
+      navigate("/home");
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Connect Wallet</h2>
@@ -43,7 +43,7 @@ const WalletConnectModal: React.FC = () => {
           </div>
         )}
 
-        {isSigningIn ? (
+        {isWalletConnecting ? (
           <div className="flex justify-center items-center py-8">
             <LoadingSpinner size="large" text="Connecting wallet..." />
           </div>

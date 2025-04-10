@@ -6,16 +6,16 @@ import { changeNetwork } from "../../utils/changenetwork";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useShowWalletPopup } from "../../context/ShowWalletPopup";
-import { useAuth } from "../../context/authContext";
+import { useSignAuth } from "../../context/authSingnatureContext";
 import { useToastNotification } from "../../hooks/useToastNotification";
 
 function SignMessage() {
   const { userAccount, selectedWallet } = useWallet();
   const { setShowWalletPopup } = useShowWalletPopup();
-  const { setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useToastNotification();
+  const {login} = useSignAuth();
 
   const verifySignHash = async (signHash: string, message: string) => {
     try {
@@ -25,19 +25,15 @@ function SignMessage() {
         address: userAccount,
       });
       if (response.data.success) {
-        console.log("Signature verified successfully!");
         showSuccess("Signature verified successfully!");
         setShowWalletPopup(false);
-        setIsAuthenticated(true);
         navigate("/home");
       } else {
         console.error("Signature verification failed.");
-        setIsAuthenticated(false);
         showError("Signature verification failed!");
       }
     } catch (error) {
       console.error("Error verifying signature:", error);
-      setIsAuthenticated(false);
       showError("Failed to verify signature!");
     }
   };
@@ -48,6 +44,11 @@ function SignMessage() {
     setLoading(true);
     try {
       const message = "Sign this message to verify ownership of this wallet.";
+      if (!userAccount) {
+        showError("User account is not available.");
+        setLoading(false);
+        return;
+      }
       const signHash = await signMessage(selectedWallet, userAccount, message);
       if (typeof signHash === "string") {
         await changeNetwork(selectedWallet);
@@ -77,7 +78,7 @@ function SignMessage() {
             <div className="font-bold text-lg">
               {selectedWallet?.info?.name || ""}
             </div>
-            <div className="text-gray-600">({formatAddress(userAccount)})</div>
+            <div className="text-gray-600">({formatAddress(userAccount || "")})</div>
           </div>
         </div>
         <button

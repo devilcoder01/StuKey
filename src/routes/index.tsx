@@ -5,22 +5,23 @@ import Mint from '../components/page/Mint';
 import Landing from '../components/page/Landing';
 import UserPage from '../components/page/UserPage';
 import ProtectedRoute from './ProtectedRoute';
-import { useAuth } from '../context/authContext';
+import { useSignAuth } from '../context/authSingnatureContext';
 import { useWalletAuth } from '../hooks/useWalletAuth';
+import { useWallet } from '../context/WalletContext';
 
 const AppRoutes: React.FC = () => {
-  const {isSigningIn} = useWalletAuth();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSignAuth();
+  const {isConnected} = useWallet()
   const [isPermission, setIsPermission] = useState(false);
   useEffect(() => {
-    if(isAuthenticated && isSigningIn){
+    if(isAuthenticated && isConnected ){
       setIsPermission(true);
     }
     else{
       setIsPermission(false);
     }
   }
-  , [isAuthenticated, isSigningIn]);
+  , [isAuthenticated, isConnected]);
 
   return (
     <Routes>

@@ -1,19 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/authContext";
 import ToastDemo from "../common/ToastDemo";
+import { useUserdetail } from "../../context/userInformation";
 
 function Home() {
   const navigate = useNavigate();
-  const { user } = useAuth();
-
-
+  const {userName} = useUserdetail();
   return (
 
       <div>
         <div className="px-6 py-24 flex justify-between items-center max-w-7xl mx-auto">
           <div className="flex flex-col gap-5">
             <h1 className="font-normal text-5xl">
-              Wellcome, <span className="font-semibold ">Stranger!</span>
+              Wellcome, <span className="font-semibold ">{userName}</span>
             </h1>
             <div>
               <span></span>

@@ -8,19 +8,16 @@ import { useWallet } from "../../context/WalletContext";
 import { useStudentContract } from "../../utils/ContractInterection";
 import { useToastNotification } from "../../hooks/useToastNotification";
 function Mint() {
+  
   const [isMinted, setIsMinted] = useState(false); // State to track if NFT is minted
   const { userAccount } = useWallet();
-  // State for GitHub Credential
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const [githubUsername, setGithubUsername] = useState<string | null>(null);
   const [engagePoint, setengagePoint] = useState<number | null>(null);
   const [isminted, setisminted] = useState(false);
   const { showSuccess, showError, showInfo } = useToastNotification();
-
-  // State for Email Credential (Example)
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
-
   const {getScoreandNFT , mintNFT} = useStudentContract();
 
   const handleGetScore = async () => {
@@ -53,7 +50,7 @@ function Mint() {
           "Content-Type": "application/json",
         },
         params : {
-          walletAddress: userAccount || "0xdd86b18fa64Ffb894e3517A6859237f851990D47"
+          walletAddress: userAccount
         }
       }).then((res) => {
         if (res.data.user?.githubUsername) {
