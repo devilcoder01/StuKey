@@ -4,7 +4,6 @@ import Home from "../components/page/Home";
 import Mint from "../components/page/Mint";
 import Landing from "../components/page/Landing";
 import UserPage from "../components/page/UserPage";
-import ThemeSettings from "../components/page/ThemeSettings";
 import ProtectedRoute from "./ProtectedRoute";
 import { useSignAuth } from "../context/authSingnatureContext";
 import { useWallet } from "../context/WalletContext";
@@ -52,14 +51,6 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute>
             <UserPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/theme"
-        element={
-          <ProtectedRoute>
-            <ThemeSettings />
           </ProtectedRoute>
         }
       />
