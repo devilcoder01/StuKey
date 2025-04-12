@@ -7,69 +7,20 @@ import axios from "axios";
 import { useWallet } from "../../context/WalletContext";
 import { useStudentContract } from "../../utils/ContractInterection";
 import { useToastNotification } from "../../hooks/useToastNotification";
+import { useUserdetail } from "../../context/userInformation";
 function Mint() {
+  const {engagementScore} = useUserdetail();
+  const { mintNFT} = useStudentContract();
+
   
   const [isMinted, setIsMinted] = useState(false); // State to track if NFT is minted
   const { userAccount } = useWallet();
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const [githubUsername, setGithubUsername] = useState<string | null>(null);
-  const [engagePoint, setengagePoint] = useState<number | null>(null);
   const [isminted, setisminted] = useState(false);
   const { showSuccess, showError, showInfo } = useToastNotification();
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
-  const {getScoreandNFT , mintNFT} = useStudentContract();
-
-  const handleGetScore = async () => {
-    if (!userAccount) {
-      console.error("No wallet connected");
-      showError("No wallet connected. Please connect your wallet first.");
-      return;
-    }
-    showInfo("Fetching your score and NFT status...");
-    const result = await getScoreandNFT(userAccount);
-    if (result.success) {
-      setengagePoint(parseInt(result.score));
-      showSuccess("Successfully retrieved your score!");
-    } else {
-      console.error(result.error);
-      showError("Failed to get your score. Please try again later.");
-    }
-  };
-
-  useEffect(() => {
-    handleGetScore();
-  }, [userAccount]);
-
-  useEffect(() => {
-    if (!userAccount) return;
-
-    try {
-      axios.get("http://localhost:5555/api/v1/user", {
-        headers : {
-          "Content-Type": "application/json",
-        },
-        params : {
-          walletAddress: userAccount
-        }
-      }).then((res) => {
-        if (res.data.user?.githubUsername) {
-          setIsGithubConnected(true);
-          setGithubUsername(res.data.user.githubUsername);
-          showSuccess("GitHub account connected!");
-        }
-        if (res.data.users?.[0]?.engagementScore) {
-          setengagePoint(res.data.users[0].engagementScore);
-        }
-      }).catch(err => {
-        console.error("Error fetching user data:", err);
-        showError("Failed to fetch user data");
-      });
-    } catch (error) {
-      console.error(error);
-      showError("An error occurred while fetching user data");
-    }
-  }, [userAccount, showSuccess, showError]); // Ensure the effect runs only when `userAccount` changes
 
 
   // --- Handlers for GitHub ---
@@ -135,7 +86,7 @@ function Mint() {
                     return;
                   }
                   showInfo("Initiating NFT minting process...");
-                  mintNFT(userAccount, engagePoint || 36)
+                  mintNFT(userAccount, engagementScore || 36)
                     .then(() => {
                       setIsMinted(true);
                       showSuccess("NFT minted successfully!");
@@ -151,7 +102,7 @@ function Mint() {
               </div>
             </div>
             <div>
-              <Score engagePoint={engagePoint} />
+              <Score engagePoint={engagementScore} />
             </div>
           </div>
           <div className="">

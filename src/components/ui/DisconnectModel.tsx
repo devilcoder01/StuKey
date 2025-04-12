@@ -5,7 +5,7 @@ interface DisconnectModalProps {
   }
   
   const DisconnectModal = ({ title, onCancel, onConfirm }: DisconnectModalProps) => (
-    <div className="fixed z-50 inset-0 bg-black bg-opacity-10 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <p className="mb-4">Do you want to disconnect {title}?</p>
         <div className="flex justify-end gap-4">

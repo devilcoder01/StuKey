@@ -60,7 +60,7 @@ const Credential = ({
             </button>
           ) : (
             <button
-              className="px-2 py-1 bg-[#2B2928] text-white rounded-lg"
+              className="px-2 py-1 bg-[#2B2928] text-white rounded-lg cursor-pointer"
               onClick={onConnect}
             >
               Connect

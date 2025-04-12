@@ -1,14 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import ToastDemo from "../common/ToastDemo";
 import { useUserdetail } from "../../context/userInformation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faCheckDouble, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   const navigate = useNavigate();
   const { userName, engagementScore, nftTokenId } = useUserdetail();
+  const [ verified, setVerified ] = useState(false);
+
+  useEffect(() => {
+    if (nftTokenId) {
+      setVerified(true);
+    }
+  }, [nftTokenId]);
 
   // Determine verification status based on NFT token ID
-  const verificationStatus = nftTokenId ? "Verified" : "Pending";
+  const verificationStatus = nftTokenId ? "Verified " : "Pending";
   return (
 
       <div>
@@ -25,8 +34,16 @@ function Home() {
               <div className="mt-10 mb-5 text-lg">Status</div>
               <div>
                 <div className="flex my-4 gap-2">
-                  <span className="text-xl font-semibold ">Verification: </span>{" "}
-                  <span className="text-xl">{verificationStatus}</span>
+                  <span className="text-xl font-semibold ">Verification: </span>
+                  <span className="text-xl flex justify-center items-center gap-3">
+                    {verified ? (
+                      <>
+                        {verificationStatus} <FontAwesomeIcon className="text-lime-400" icon={faCircleCheck} />
+                      </>
+                    ) : (
+                      verificationStatus
+                    )}
+                  </span>
                 </div>
                 <div className="flex my-4 gap-2">
                   <span className="text-xl font-semibold">Stukey Score:</span>

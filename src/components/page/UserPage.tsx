@@ -10,6 +10,8 @@ import { formatAddress } from '../../utils'
 function UserPage() {
   const { userName, email, walletAddress, githubUsername, engagementScore } = useUserdetail();
 
+
+
   // Format wallet address for display
   const displayAddress = walletAddress ? formatAddress(walletAddress) : '0x0000...0000';
   return (
