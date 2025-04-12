@@ -9,28 +9,31 @@ import ToastContainer from "./components/common/ToastContainer";
 import { UserInormationProvider } from "./context/userInformation";
 import WalletConnectModal from "./components/common/WalletConnectModal";
 import AppInitializer from "./components/common/AppInitializer";
+import { ThemeProvider } from "./context/Themeprovider";
 
 function App() {
   return (
     <AuthProvider>
       <WalletProvider>
         <ShowWalletPopupProvider>
-          <ToastProvider>
-            <UserInormationProvider>
-              <Router>
-                <AppInitializer>
-                  <div className="flex flex-col min-h-screen">
-                    <Navbar />
-                    <main className="flex-grow">
-                      <AppRoutes />
-                    </main>
-                    <WalletConnectModal />
-                    <ToastContainer />
-                  </div>
-                </AppInitializer>
-              </Router>
-            </UserInormationProvider>
-          </ToastProvider>
+          <ThemeProvider>
+            <ToastProvider>
+              <UserInormationProvider>
+                <Router>
+                  <AppInitializer>
+                    <div className="flex flex-col min-h-screen">
+                      <Navbar />
+                      <main className="flex-grow">
+                        <AppRoutes />
+                      </main>
+                      <WalletConnectModal />
+                      <ToastContainer />
+                    </div>
+                  </AppInitializer>
+                </Router>
+              </UserInormationProvider>
+            </ToastProvider>
+          </ThemeProvider>
         </ShowWalletPopupProvider>
       </WalletProvider>
     </AuthProvider>
