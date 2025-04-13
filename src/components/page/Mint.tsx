@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import Score from "../ui/Score";
 import Credential from "../ui/Credential";
 import { faGithub } from "@fortawesome/free-brands-svg-icons"; // Import icons
@@ -7,6 +9,7 @@ import { useWallet } from "../../context/WalletContext";
 import { useStudentContract } from "../../utils/ContractInterection";
 import { useToastNotification } from "../../hooks/useToastNotification";
 import { useAppInstuctor } from "../../context/AppInstuctor";
+
 function Mint() {
   const { mintNFT } = useStudentContract();
   const { isMinted, setAppInstructorData, offChainEngagementScore } = useAppInstuctor(); // State to track if NFT is minted
@@ -16,6 +19,89 @@ function Mint() {
   const { showSuccess, showError, showInfo } = useToastNotification();
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
+
+
+  // Refs for animation
+  const containerRef = useRef(null);
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const buttonRef = useRef(null);
+  const scoreRef = useRef(null);
+  const credentialsRef = useRef(null);
+
+  // GSAP Timeline Animation
+  useGSAP(() => {
+    const tl = gsap.timeline();
+
+    // Animate the container
+    tl.from(containerRef.current, {
+      opacity: 0,
+      y: 50,
+      duration: 0.6,
+      ease: "power3.out",
+    });
+
+    // Animate the title
+    tl.from(
+      titleRef.current,
+      {
+        opacity: 0,
+        y: 30,
+        duration: 0.4,
+        ease: "power3.out",
+      },
+      "-=0.4"
+    );
+
+    // Animate the description
+    tl.from(
+      descriptionRef.current,
+      {
+        opacity: 0,
+        y: 20,
+        duration: 0.4,
+        ease: "power3.out",
+      },
+      "-=0.3"
+    );
+
+    // Animate the button
+    tl.from(
+      buttonRef.current,
+      {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.4,
+        ease: "power3.out",
+      },
+      "-=0.3"
+    );
+
+    // Animate the score
+    tl.from(
+      scoreRef.current,
+      {
+        opacity: 0,
+        x: 50,
+        duration: 0.4,
+        ease: "power3.out",
+      },
+      "-=0.3"
+    );
+
+    // Animate the credentials section
+    tl.from(
+      credentialsRef.current,
+      {
+        opacity: 0,
+        y: 30,
+        duration: 0.4,
+        ease: "power3.out",
+      },
+      "-=0.3"
+    );
+  }, [containerRef, titleRef, descriptionRef, buttonRef, scoreRef, credentialsRef]);
+
 
   // --- Handlers for GitHub ---
   const handleGithubConnect = () => {
@@ -88,20 +174,21 @@ function Mint() {
   };
 
   return (
-    <div>
+    <div ref={containerRef}>
       <div className="px-52 py-20 flex justify-between items-center max-w-7xl mx-auto">
         <div className=" w-full">
           <div className="flex justify-between w-full mb-8">
             <div>
               <div className="flex flex-col gap-4">
-                <div className="text-5xl font-medium">Proof of Student</div>
-                <div className="text-[0.7rem] mfont-normal w-96">
+                <div className="text-5xl font-medium" ref={titleRef}>Proof of Student</div>
+                <div className="text-[0.7rem] mfont-normal w-96" ref={descriptionRef}>
                   Rewards for Students in the Age of Blockchain — Prove Your
                   Student Identity Without Sharing Personal Data
                 </div>
               </div>
-              <div className="my-11">
+              <div className="my-11" ref={buttonRef}>
                 <button
+
                   onClick={() => handleMintNFT()}
                   className="px-6 py-3 bg-[#2B2928] text-white rounded-full cursor-pointer"
                 >
@@ -109,12 +196,12 @@ function Mint() {
                 </button>
               </div>
             </div>
-            <div>
+            <div ref={scoreRef}>
               <Score engagePoint={offChainEngagementScore} />
             </div>
           </div>
           <div className="">
-            <div className="text-lg font-medium mb-5">Credentials</div>{" "}
+            <div className="text-lg font-medium mb-5" ref={credentialsRef}>Credentials</div>{" "}
             {/* Changed title */}
             <div className="flex gap-4">
               {" "}
