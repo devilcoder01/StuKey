@@ -1,6 +1,7 @@
-import React from 'react';
-import { useAppInitialization } from '../../hooks/useAppInitialization';
-import LoadingSpinner from './LoadingSpinner';
+import React from "react";
+import { useAppInitialization } from "../../hooks/useAppInitialization";
+import LoadingSpinner from "./LoadingSpinner";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 interface AppInitializerProps {
   children: React.ReactNode;
@@ -16,7 +17,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
   if (isInitializing) {
     return (
       <div className="fixed inset-0 bg-white bg-opacity-90 flex flex-col items-center justify-center z-50">
-        <LoadingSpinner size="large" text="Loading your data..." />
+        {/* <LoadingSpinner size="large" text="Loading your data..." /> */}
+        <div className="w-96 h-96">
+          <DotLottieReact src="./white.lottie" loop autoplay />
+        </div>
       </div>
     );
   }

@@ -3,3 +3,7 @@
 @import "tailwindcss";
 
 
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 0px; /* Width of the scrollbar */
+  }

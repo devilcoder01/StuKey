@@ -9,14 +9,12 @@ import ToastContainer from "./components/common/ToastContainer";
 import { UserInormationProvider } from "./context/userInformation";
 import WalletConnectModal from "./components/common/WalletConnectModal";
 import AppInitializer from "./components/common/AppInitializer";
-import { ThemeProvider } from "./context/Themeprovider";
 
 function App() {
   return (
     <AuthProvider>
       <WalletProvider>
         <ShowWalletPopupProvider>
-          <ThemeProvider>
             <ToastProvider>
               <UserInormationProvider>
                 <Router>
@@ -33,7 +31,6 @@ function App() {
                 </Router>
               </UserInormationProvider>
             </ToastProvider>
-          </ThemeProvider>
         </ShowWalletPopupProvider>
       </WalletProvider>
     </AuthProvider>
