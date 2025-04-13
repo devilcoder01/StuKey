@@ -18,9 +18,16 @@ function Mint() {
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
 
   // --- Handlers for GitHub ---
-  const handleGithubConnect = async () => {
+  const handleGithubConnect = () => {
+    if (!userAccount) {
+      showError("Please connect your wallet first.");
+      return;
+    }
     showInfo("Redirecting to GitHub for authentication...");
-    window.location.href = "http://localhost:5555/api/v1/auth/github/";
+    // Construct the URL with the walletAddress as a query parameter
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555"; // Use environment variable or default
+    const githubAuthUrl = `${backendUrl}/api/v1/auth/github?walletAddress=${encodeURIComponent(userAccount)}`;
+    window.location.href = githubAuthUrl;
   };
 
   const handleGithubDisconnect = () => {
