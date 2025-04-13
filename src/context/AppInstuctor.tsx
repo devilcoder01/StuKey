@@ -9,7 +9,7 @@ interface userInformation{
     email: string | null,
     walletAddress : string | null,
     githubusername : string | null,
-    engagementScore: number | null;
+    offChainEngagementScore: number | null;
     nftTokenID : string | null,
 }
 
@@ -41,7 +41,7 @@ const defaultInstructor:appInstructorType  = {
     email: null,
     walletAddress: null,
     githubusername: null,
-    engagementScore: 0,
+    offChainEngagementScore: 0,
     nftTokenID: null,
     isVerified: false,
     isMinted : false,

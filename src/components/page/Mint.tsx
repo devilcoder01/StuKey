@@ -8,15 +8,14 @@ import { useStudentContract } from "../../utils/ContractInterection";
 import { useToastNotification } from "../../hooks/useToastNotification";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 function Mint() {
-  const { mintNFT} = useStudentContract();
-  const {isMinted, setAppInstructorData, engagementScore} = useAppInstuctor() // State to track if NFT is minted
+  const { mintNFT } = useStudentContract();
+  const { isMinted, setAppInstructorData, offChainEngagementScore } = useAppInstuctor(); // State to track if NFT is minted
   const { userAccount } = useWallet();
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const [githubUsername, setGithubUsername] = useState<string | null>(null);
   const { showSuccess, showError, showInfo } = useToastNotification();
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
-
 
   // --- Handlers for GitHub ---
   const handleGithubConnect = async () => {
@@ -60,6 +59,27 @@ function Mint() {
     showSuccess("Email disconnected successfully");
   };
 
+  const handleMintNFT = async () => {
+    // Add actual NFT minting logic here
+    if (!userAccount) {
+      showError("Please connect your wallet first");
+      return;
+    }
+    showInfo("Initiating NFT minting process...");
+    const nftmint = await mintNFT(userAccount, offChainEngagementScore || 36)  //Change it later
+    if (!nftmint) {
+      showError("Failed to mint NFT");
+      return;
+    }
+    setAppInstructorData({
+      isMinted : true
+    })
+
+    setTimeout(() => {
+      showSuccess("NFT minted successfully!");
+    }, 1500);
+  };
+
   return (
     <div>
       <div className="px-52 py-20 flex justify-between items-center max-w-7xl mx-auto">
@@ -75,31 +95,15 @@ function Mint() {
               </div>
               <div className="my-11">
                 <button
-                onClick={() => {
-                  if (!userAccount) {
-                    showError("Please connect your wallet first");
-                    return;
-                  }
-                  showInfo("Initiating NFT minting process...");
-                  mintNFT(userAccount, engagementScore || 36)
-                    .then(() => {
-                      setAppInstructorData({
-                        isMinted : true
-                      });
-                      showSuccess("NFT minted successfully!");
-                    })
-                    .catch((error) => {
-                      console.error("Minting error:", error);
-                      showError("Failed to mint NFT. Please try again.");
-                    });
-                }}
-                 className="px-6 py-3 bg-[#2B2928] text-white rounded-full cursor-pointer">
+                  onClick={() => handleMintNFT()}
+                  className="px-6 py-3 bg-[#2B2928] text-white rounded-full cursor-pointer"
+                >
                   {isMinted ? "Minted" : "Mint Score"}
                 </button>
               </div>
             </div>
             <div>
-              <Score engagePoint={engagementScore} />
+              <Score engagePoint={offChainEngagementScore} />
             </div>
           </div>
           <div className="">

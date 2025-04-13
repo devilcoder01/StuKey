@@ -46,18 +46,14 @@ export const useStudentContract = () => {
     if (!selectedWallet?.provider) {
       throw new Error("No wallet connected");
     }
-
     const contract = getContract(selectedWallet.provider);
 
     try {
       await contract.methods.mintNFT(address, score, 365).send({ from: address });
-      return { success: true };
+      return true;
     } catch (error) {
       console.error("Error minting the NFT:", error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : "An unknown error occurred" 
-      };
+      return false;
     }
   };
 

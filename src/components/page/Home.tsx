@@ -7,7 +7,7 @@ import { useAppInstuctor } from "../../context/AppInstuctor";
 
 function Home() {
   const navigate = useNavigate();
-  const {isVerified, setAppInstructorData , username, engagementScore, nftTokenID} = useAppInstuctor()
+  const {isVerified, setAppInstructorData , username, offChainEngagementScore, nftTokenID} = useAppInstuctor()
 
   useEffect(() => {
     if (nftTokenID) {
@@ -48,7 +48,7 @@ function Home() {
                 </div>
                 <div className="flex my-4 gap-2">
                   <span className="text-xl font-semibold">Stukey Score:</span>
-                  <span className="text-xl">{engagementScore || 0}</span>
+                  <span className="text-xl">{offChainEngagementScore || 0}</span>
                 </div>
               </div>
               <div className="button my-8">
@@ -71,10 +71,10 @@ function Home() {
           </div>
 
           {/* Toast Demo Section */}
-          <div className="w-full my-8">
+          {/* <div className="w-full my-8">
             <h2 className="text-2xl font-semibold mb-6">Try Our New Notification System</h2>
             <ToastDemo />
-          </div>
+          </div> */}
         </div>
       </div>
 

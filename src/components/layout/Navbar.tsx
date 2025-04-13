@@ -18,6 +18,7 @@ function Navbar() {
     if (isConnected ) {
       setButtonText("Disconnect");
     } else {
+      navigate("/");
       setButtonText("Connect");
     };
 

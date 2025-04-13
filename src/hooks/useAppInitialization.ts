@@ -48,7 +48,7 @@ export const useAppInitialization = () => {
         // If we have users array data structure
         if (response.data.users && response.data.users[0]) {
           const user = response.data.users[0];
-          setAppInstructorData({ engagementScore: user.engagementScore || 0 });
+          setAppInstructorData({ offChainEngagementScore: user.engagementScore || 0 });
         }
 
         return true;
@@ -97,7 +97,7 @@ export const useAppInitialization = () => {
         setAppInstructorData({
           walletAddress: walletAddress,
           nftTokenID: result.tokenId,
-          engagementScore: result.score,
+          offChainEngagementScore: result.score,
         });
         return true;
       }

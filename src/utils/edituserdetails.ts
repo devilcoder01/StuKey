@@ -1,10 +1,15 @@
 import axios from "axios"
 import dotenv from "dotenv"
 
-dotenv.config()
+dotenv.config();
 
-const BACKEND_URL= process.env.BACKEND_URL;
 
-export const editUserDetails = (username : string, walletAddress: string ) => {    
-    const updateData = axios.post(`${BACKEND_URL}/v1/update`)
+export const EditUserInfo = async(username : string, walletAddress: string) => {
+    const update = await axios.post(`${process.env.BACKEND_URL}/api/v1/updateusername`,{
+        body : {
+            username : username,
+            walletAddress : walletAddress,
+        }
+    })
+    return update.status;
 }
