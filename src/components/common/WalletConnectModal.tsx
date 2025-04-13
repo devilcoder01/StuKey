@@ -1,26 +1,38 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import { useWallet } from "../../context/WalletContext";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
-import { EIP6963ProviderDetail } from "../../types/wallet.types";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 
 const WalletConnectModal: React.FC = () => {
   const {showWalletpopUp, setAppInstructorData} = useAppInstuctor();
-  const { providers, isWalletConnecting, selectedWallet, userAccount } =
-    useWallet();
+  const { providers, isWalletConnecting, selectedWallet, userAccount } = useWallet();
   const { signinMessage, walletConnect } = useWalletAuth();
+  const [isMessageSigning, setIsMessageSigning] = useState(false);
   const navigate = useNavigate();
 
+  const [loaderTextMsg, setLoaderTextMsg] = useState("Loading Resoponse.....");
+
+  useEffect(() => {
+    if (isWalletConnecting) {
+      setLoaderTextMsg("Connecting wallet...");
+    } else if (isMessageSigning) {
+      setLoaderTextMsg("Signing message...");
+    } else {
+      setLoaderTextMsg("Loading Response.....");
+    }
+  }, [isWalletConnecting, isMessageSigning]);
+
   if (!showWalletpopUp) {
-    console.log("Kuch to hua hai")
     return null;
   }
 
   const hangleSignin = async () => {
+    setIsMessageSigning(true)
     const success = await signinMessage();
     if (success) {
+      setIsMessageSigning(false)
       setAppInstructorData({
         showWalletpopUp : false
       })
@@ -49,9 +61,9 @@ const WalletConnectModal: React.FC = () => {
           </div>
         )} */}
 
-        {isWalletConnecting ? (
+        {isWalletConnecting || isMessageSigning ? (
           <div className="flex justify-center items-center py-8">
-            <LoadingSpinner size="large" text="Connecting wallet..." />
+            <LoadingSpinner size="large" text={loaderTextMsg} />
           </div>
         ) : (
           <div className="space-y-4">
