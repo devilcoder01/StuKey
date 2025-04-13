@@ -65,12 +65,15 @@ export const useAppInitialization = () => {
 
   const CreateUserData = async (username: string) => {
     try {
-      const response = await axios.put(`${backendURL}/api/v1/user/update`, {
-        walletAddress: walletAddress,
+      const response = await axios.post(`${backendURL}/api/v1/newuser`, {
         username: username.trim(),
+        walletAddress: walletAddress,
       });
       if (response.status === 200 || response.status === 201) {
         setAppInstructorData({ username: username.trim() });
+        setAppInstructorData({
+          isFirstUser: false,
+        });
       } else {
         console.warn("Unexpected success status:", response.status);
         showError("Failed to update username. Unexpected status.");
