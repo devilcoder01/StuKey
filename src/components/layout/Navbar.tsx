@@ -36,7 +36,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-white ">
+    <nav className="bg-[#121212] ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -54,19 +54,19 @@ function Navbar() {
               <>
                 <button
                   onClick={() => navigate("/home")}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 cursor-pointer "
+                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white cursor-pointer "
                 >
                   Home
                 </button>
                 <button
                   onClick={() => navigate("/mint")}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 cursor-pointer"
+                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white cursor-pointer"
                 >
                   Mint
                 </button>
                 <button
                   onClick={() => navigate("/user")}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 cursor-pointer"
+                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white cursor-pointer"
                 >
                   Profile
                 </button>
@@ -88,7 +88,7 @@ function Navbar() {
               )}
             </button>
             {isAuthenticated && isConnected && (
-              <div className="text-sm text-gray-600 mr-2">
+              <div className="text-sm text-gray-300 mr-2">
                 {/* {formatAddress(userAccount)} */}
                 <div className="h-11 w-11 rounded-full bg-amber-500 cursor-pointer"></div>
               </div>

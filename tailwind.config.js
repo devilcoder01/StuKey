@@ -4,8 +4,43 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        primary: {
+          light: '#4F46E5',
+          dark: '#6366F1',
+        },
+        secondary: {
+          light: '#6B7280',
+          dark: '#9CA3AF',
+        },
+        background: {
+          light: '#FFFFFF',
+          dark: '#121212',
+        },
+        text: {
+          light: '#1F2937',
+          dark: '#F3F4F6',
+        },
+        accent: {
+          light: '#3B82F6',
+          dark: '#60A5FA',
+        },
+        error: {
+          light: '#EF4444',
+          dark: '#F87171',
+        },
+        warning: {
+          light: '#F59E0B',
+          dark: '#FBBF24',
+        },
+        info: {
+          light: '#3B82F6',
+          dark: '#60A5FA',
+        },
+      },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',
         'fade-out': 'fadeOut 0.3s ease-in-out',

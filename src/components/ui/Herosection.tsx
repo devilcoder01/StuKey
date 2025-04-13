@@ -2,7 +2,7 @@ import React from "react";
 
 function Herosection() {
   return (
-    <div>
+    <div className="">
       <div className="max-w-7xl mx-auto px-6 py-24 flex items-center mb-10">
         <div className="w-1/2">
           <h1 className="text-6xl/snug font-medium">

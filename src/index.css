@@ -7,3 +7,31 @@
 ::-webkit-scrollbar {
     width: 0px; /* Width of the scrollbar */
   }
+
+/* Mesh Gradient Background */
+.mesh-gradient-bg {
+  background-color: #1a1a1a; /* Dark background base */
+  background-image:
+    radial-gradient(at 20% 15%, hsla(278, 70%, 30%, 0.4) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, hsla(340, 60%, 40%, 0.3) 0px, transparent 50%),
+    radial-gradient(at 10% 85%, hsla(210, 50%, 45%, 0.25) 0px, transparent 50%),
+    radial-gradient(at 75% 80%, hsla(30, 70%, 50%, 0.35) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, hsla(0, 0%, 10%, 0.6) 0px, transparent 70%); /* Central darker area */
+  min-height: 100vh; /* Ensure it covers the viewport height */
+  color: white; /* Set default text color to white for contrast */
+  background-size: 400% 400%; /* Make background larger to allow for movement */
+  animation: animateMeshGradient 15s ease infinite; /* Apply the animation */
+}
+
+/* Keyframes for the animation */
+@keyframes animateMeshGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Ensure content within the gradient is visible */
+.mesh-gradient-bg > * {
+  position: relative; /* Ensure content is layered above the background */
+  z-index: 1;
+}

@@ -8,9 +8,9 @@ const ToastDemo: React.FC = () => {
   const { showSuccess, showError, showWarning, showInfo } = useToastNotification();
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
+    <div className="p-6 bg-[#1E1E1E] rounded-lg shadow-md text-white">
       <h2 className="text-xl font-semibold mb-4">Toast Notification Demo</h2>
-      <p className="mb-4 text-gray-600">
+      <p className="mb-4 text-gray-300">
         Click the buttons below to see different types of toast notifications.
       </p>
       <div className="flex flex-wrap gap-3">
@@ -42,11 +42,11 @@ const ToastDemo: React.FC = () => {
           onClick={() => {
             // Show multiple toasts in sequence
             showInfo('Starting a sequence of operations...');
-            
+
             setTimeout(() => {
               showWarning('Processing your request...');
             }, 1000);
-            
+
             setTimeout(() => {
               showSuccess('All operations completed successfully!');
             }, 2000);

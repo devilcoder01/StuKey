@@ -69,7 +69,7 @@ function SignMessage() {
 
   return (
     <div>
-      <div className="mt-4 p-4 border border-gray-300 rounded-full bg-gray-50 flex justify-between items-center">
+      <div className="mt-4 p-4 border border-gray-700 rounded-full bg-gray-800 flex justify-between items-center text-white">
         <div className="flex items-center gap-4">
           <img
             src={selectedWallet?.info?.icon || ""}
@@ -80,7 +80,7 @@ function SignMessage() {
             <div className="font-bold text-lg">
               {selectedWallet?.info?.name || ""}
             </div>
-            <div className="text-gray-600">({formatAddress(userAccount || "")})</div>
+            <div className="text-gray-300">({formatAddress(userAccount || "")})</div>
           </div>
         </div>
         <button
