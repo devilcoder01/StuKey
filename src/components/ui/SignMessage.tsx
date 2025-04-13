@@ -5,13 +5,13 @@ import { signMessage } from "../../utils/signmessage";
 import { changeNetwork } from "../../utils/changenetwork";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useShowWalletPopup } from "../../context/ShowWalletPopup";
 import { useSignAuth } from "../../hooks/useSignAuth";
 import { useToastNotification } from "../../hooks/useToastNotification";
+import { useAppInstuctor } from "../../context/AppInstuctor";
 
 function SignMessage() {
   const { userAccount, selectedWallet } = useWallet();
-  const { setShowWalletPopup } = useShowWalletPopup();
+  const { setAppInstructorData } = useAppInstuctor();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useToastNotification();
@@ -26,7 +26,9 @@ function SignMessage() {
       });
       if (response.data.success) {
         showSuccess("Signature verified successfully!");
-        setShowWalletPopup(false);
+        setAppInstructorData({
+          showWalletpopUp : false
+        });
         navigate("/home");
       } else {
         console.error("Signature verification failed.");

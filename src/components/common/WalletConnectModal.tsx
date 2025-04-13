@@ -14,6 +14,7 @@ const WalletConnectModal: React.FC = () => {
   const navigate = useNavigate();
 
   if (!showWalletpopUp) {
+    console.log("Kuch to hua hai")
     return null;
   }
 

@@ -29,7 +29,7 @@ function Navbar() {
       navigate("/");
     } else {
       setAppInstructorData({
-        showWalletpopUp : false
+        showWalletpopUp : true
       })
     }
   };
