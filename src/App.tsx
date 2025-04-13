@@ -4,16 +4,15 @@ import Navbar from "./components/layout/Navbar";
 import { ToastProvider } from "./context/ToastContext";
 import AppRoutes from "./routes";
 import ToastContainer from "./components/common/ToastContainer";
-import { UserInormationProvider } from "./context/userInformation";
 import WalletConnectModal from "./components/common/WalletConnectModal";
 import AppInitializer from "./components/common/AppInitializer";
 import { AppInstructorProvider } from "./context/AppInstuctor";
+import FirstUser from "./components/common/FirstUser";
 function App() {
   return (
     <WalletProvider>
       <AppInstructorProvider>
         <ToastProvider>
-          <UserInormationProvider>
             <Router>
               <AppInitializer>
                 <div className="flex flex-col min-h-screen">
@@ -21,12 +20,12 @@ function App() {
                   <main className="flex-grow">
                     <AppRoutes />
                   </main>
+                  <FirstUser/>
                   <WalletConnectModal />
                   <ToastContainer />
                 </div>
               </AppInitializer>
             </Router>
-          </UserInormationProvider>
         </ToastProvider>
       </AppInstructorProvider>
     </WalletProvider>

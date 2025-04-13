@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useWallet } from "../context/WalletContext";
-import { useUserdetail } from "../context/userInformation";
 import { useToastNotification } from "./useToastNotification";
 import { useStudentContract } from "../utils/ContractInterection";
 import { useAppInstuctor } from "../context/AppInstuctor";
-// import { getScoreandNFT } from '../utils/ContractInterection';
 
 // Get backend URL from environment variables
 const backendURL = process.env.BACKEND_URL || "http://localhost:5555";
@@ -15,9 +13,14 @@ const backendURL = process.env.BACKEND_URL || "http://localhost:5555";
  * This hook handles fetching user data when the app first loads
  */
 export const useAppInitialization = () => {
-  const {isInitializing, isDataLoaded,isAuthenticated, setAppInstructorData} = useAppInstuctor()
+  const {
+    isInitializing,
+    isDataLoaded,
+    isAuthenticated,
+    setAppInstructorData,
+    walletAddress,
+  } = useAppInstuctor();
   const { userAccount, isConnected } = useWallet();
-  const { setUserData } = useUserdetail();
   const { showError } = useToastNotification();
   const { getScoreandNFT } = useStudentContract();
 
@@ -35,11 +38,11 @@ export const useAppInitialization = () => {
 
         // Update user context with fetched data
         if (userData) {
-          setUserData({
-            userName: userData.username || "",
+          setAppInstructorData({
+            username: userData.username || "",
             email: userData.email || "",
             walletAddress: userData.walletAddress || "",
-            githubUsername: userData.githubUsername || "",
+            githubusername: userData.githubUsername || "",
             engagementScore: userData.engagementScore || 0,
           });
         }
@@ -47,10 +50,14 @@ export const useAppInitialization = () => {
         // If we have users array data structure
         if (response.data.users && response.data.users[0]) {
           const user = response.data.users[0];
-          setUserData({engagementScore: user.engagementScore || 0,})
+          setAppInstructorData({ engagementScore: user.engagementScore || 0 });
         }
 
         return true;
+      } else if (response.status === 204) {
+        setAppInstructorData({
+          isFirstUser: true,
+        });
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -58,41 +65,24 @@ export const useAppInitialization = () => {
     }
   };
 
-  const CreateUserData = async () => {
+  const CreateUserData = async (username: string) => {
     try {
-      // create a user
-      // The 'body' key might be incorrect. Axios expects the data directly as the second argument.
-      // Also, 'walletAddres' seems to have a typo, it should likely be 'walletAddress'.
-      const createAccount = await axios.post(`${backendURL}/api/v1/newuser`, {
-        // Remove the 'body' wrapper
-        username: "danio", // Consider making this dynamic or passed as an argument
-        walletAddress: userAccount, // Corrected typo: walletAddres -> walletAddress
+      const response = await axios.put(`${backendURL}/api/v1/user/update`, {
+        walletAddress: walletAddress,
+        username: username.trim(),
       });
-      if (createAccount.status === 201) {
-        console.log("UserCreated");
-        return true;
-      }
-      // It might be better to check for specific error statuses or rely on the catch block
-      else if (createAccount.status === 500) {
-        console.error("Server error during user creation:", createAccount.data); // Log server error message if available
-        return false;
+      if (response.status === 200 || response.status === 201) {
+        setAppInstructorData({ username: username.trim() });
       } else {
-        // Handle other non-201 statuses if necessary
-        console.warn(
-          "Unexpected status code during user creation:",
-          createAccount.status
-        );
-        return false;
+        console.warn("Unexpected success status:", response.status);
+        showError("Failed to update username. Unexpected status.");
       }
     } catch (error) {
-      // Log the specific Axios error for more details
+      console.error("Error updating username:", error);
       if (axios.isAxiosError(error)) {
-        console.error(
-          "Axios error creating new user:",
-          error.response?.data || error.message
-        );
+        showError(`Error: ${error.response?.data?.message || error.message}`);
       } else {
-        console.error("Error creating new user:", error);
+        showError("An unexpected error occurred while updating username.");
       }
       return false;
     }
@@ -103,10 +93,10 @@ export const useAppInitialization = () => {
     try {
       const result = await getScoreandNFT(walletAddress);
       if (result.success) {
-        setUserData({
-          nftTokenId : result.tokenId,
+        setAppInstructorData({
+          nftTokenID: result.tokenId,
           engagementScore: result.score,
-        })
+        });
         return true;
       }
       return false;
@@ -119,25 +109,20 @@ export const useAppInitialization = () => {
   // Initialize app data
   useEffect(() => {
     const initializeApp = async () => {
-      setAppInstructorData({
-        isInitializing: true
-      });
-
-      if (isAuthenticated && isConnected && userAccount) {
+      if (!isInitializing && isAuthenticated && isConnected && userAccount) {
+        setAppInstructorData({
+          isInitializing: true,
+        });
         try {
-          const userDataFetched = await fetchUserData(userAccount);
-
-          if (!userDataFetched) {
-            CreateUserData();
-          }
-
-          const blockchainDataFetched = await fetchBlockchainData(userAccount);
-
-          // Set wallet address in user context
-          setUserData({walletAddress: userAccount});
+          await Promise.all([
+            fetchUserData(userAccount),
+            fetchBlockchainData(userAccount),
+          ]);
 
           setAppInstructorData({
-            isDataLoaded : (userDataFetched || blockchainDataFetched)
+            walletAddress: userAccount,
+            isDataLoaded: true,
+            isInitializing: false,
           });
         } catch (error) {
           console.error("Error during app initialization:", error);
@@ -145,13 +130,13 @@ export const useAppInitialization = () => {
             "Failed to load user data. Please try refreshing the page."
           );
           setAppInstructorData({
-            isDataLoaded: false
+            isDataLoaded: false,
           });
         }
       } else {
         // If not authenticated, we're still "loaded" just without user data
         setAppInstructorData({
-          isDataLoaded : true
+          isDataLoaded: true,
         });
       }
 
@@ -166,5 +151,6 @@ export const useAppInitialization = () => {
   return {
     isInitializing,
     isDataLoaded,
+    CreateUserData,
   };
 };

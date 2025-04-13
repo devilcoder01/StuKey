@@ -29,17 +29,21 @@ export const useSignAuth = () => {
           setAppInstructorData({
             isAuthenticated: true,
             isAuthPending: false,
+            isInitializing: false,
             error: null,
           });
         } else {
           setAppInstructorData({
             isAuthPending: false,
+            isInitializing: false,
+            
           });
         }
       } catch (error) {
         setAppInstructorData({
           isAuthenticated: false,
           isAuthPending: false,
+          isInitializing: false,
           error: "Failed to restore authentication session",
         });
       }

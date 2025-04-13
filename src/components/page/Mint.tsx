@@ -3,16 +3,13 @@ import Score from "../ui/Score";
 import Credential from "../ui/Credential";
 import { faGithub } from "@fortawesome/free-brands-svg-icons"; // Import icons
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { useWallet } from "../../context/WalletContext";
 import { useStudentContract } from "../../utils/ContractInterection";
 import { useToastNotification } from "../../hooks/useToastNotification";
-import { useUserdetail } from "../../context/userInformation";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 function Mint() {
-  const {engagementScore} = useUserdetail();
   const { mintNFT} = useStudentContract();
-  const {isMinted, setAppInstructorData} = useAppInstuctor() // State to track if NFT is minted
+  const {isMinted, setAppInstructorData, engagementScore} = useAppInstuctor() // State to track if NFT is minted
   const { userAccount } = useWallet();
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const [githubUsername, setGithubUsername] = useState<string | null>(null);

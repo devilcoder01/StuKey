@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 interface walletPopUp {
     showWalletpopUp  : boolean,
@@ -21,6 +21,7 @@ interface AppInitializerInfo {
     error : string | null;
     isVerified: boolean;
     isMinted : boolean;
+    isFirstUser: boolean;
 }
 
 interface AppInitializerFunction {
@@ -31,7 +32,7 @@ interface appInstructorType extends walletPopUp, userInformation, AppInitializer
 
 const defaultInstructor:appInstructorType  = {
     showWalletpopUp: false,
-    isInitializing: false,
+    isInitializing: true,
     isDataLoaded: false,
     isAuthenticated: false,
     isAuthPending: false,
@@ -44,6 +45,7 @@ const defaultInstructor:appInstructorType  = {
     nftTokenID: null,
     isVerified: false,
     isMinted : false,
+    isFirstUser : false,
 };
 
 const appInstructorContext = createContext<appInstructorType & AppInitializerFunction| null>(null);
@@ -58,10 +60,14 @@ export const AppInstructorProvider : React.FC<{children: React.ReactNode}> = ({c
         }));
     };
 
+    const value = useMemo(() => ({
+        ...state,
+        setAppInstructorData
+    }), [state, setAppInstructorData]);
     
 
     return (
-        <appInstructorContext.Provider value={{...state, setAppInstructorData}}>
+        <appInstructorContext.Provider value={value}>
             {children}
         </appInstructorContext.Provider>
     );

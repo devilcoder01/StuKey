@@ -2,11 +2,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faMessage } from '@fortawesome/free-solid-svg-icons'
-import { useUserdetail } from '../../context/userInformation'
 import { formatAddress } from '../../utils'
+import { useAppInstuctor } from '../../context/AppInstuctor'
 
 function UserPage() {
-  const { userName, email, walletAddress, githubUsername, engagementScore } = useUserdetail();
+  const { username, email, walletAddress, githubusername, engagementScore } = useAppInstuctor();
 
   // Format wallet address for display
   const displayAddress = walletAddress ? formatAddress(walletAddress) : '0x0000...0000';
@@ -31,10 +31,10 @@ function UserPage() {
                 <div>
                     <div className="walletadddr text-sm font-normal mb-8">{displayAddress}</div>
                     <div className='flex flex-col gap-4'>
-                        <div className="name flex text-xl"><span className='font-bold mr-2'>Name:</span><span>{userName || 'Not set'}</span></div>
+                        <div className="name flex text-xl"><span className='font-bold mr-2'>Name:</span><span>{username || 'Not set'}</span></div>
                         <div className="name flex text-xl"><span className='font-bold mr-2'>Email:</span><span>{email || 'Not set'}</span></div>
-                        {githubUsername && (
-                          <div className="name flex text-xl"><span className='font-bold mr-2'>GitHub:</span><span>{githubUsername}</span></div>
+                        {githubusername && (
+                          <div className="name flex text-xl"><span className='font-bold mr-2'>GitHub:</span><span>{githubusername}</span></div>
                         )}
                         <div className="name flex text-xl"><span className='font-bold mr-2'>Score:</span><span>{engagementScore || 0}</span></div>
                     </div>
