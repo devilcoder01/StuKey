@@ -41,9 +41,7 @@ export const useAppInitialization = () => {
           setAppInstructorData({
             username: userData.username || "",
             email: userData.email || "",
-            walletAddress: userData.walletAddress || "",
             githubusername: userData.githubUsername || "",
-            engagementScore: userData.engagementScore || 0,
           });
         }
 
@@ -94,6 +92,7 @@ export const useAppInitialization = () => {
       const result = await getScoreandNFT(walletAddress);
       if (result.success) {
         setAppInstructorData({
+          walletAddress: walletAddress,
           nftTokenID: result.tokenId,
           engagementScore: result.score,
         });
