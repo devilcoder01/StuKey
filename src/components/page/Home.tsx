@@ -4,15 +4,18 @@ import { useUserdetail } from "../../context/userInformation";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCheckDouble, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { useAppInstuctor } from "../../context/AppInstuctor";
 
 function Home() {
   const navigate = useNavigate();
   const { userName, engagementScore, nftTokenId } = useUserdetail();
-  const [ verified, setVerified ] = useState(false);
+  const {isVerified, setAppInstructorData} = useAppInstuctor()
 
   useEffect(() => {
     if (nftTokenId) {
-      setVerified(true);
+      setAppInstructorData({
+        isVerified : true
+      })
     }
   }, [nftTokenId]);
 
@@ -36,7 +39,7 @@ function Home() {
                 <div className="flex my-4 gap-2">
                   <span className="text-xl font-semibold ">Verification: </span>
                   <span className="text-xl flex justify-center items-center gap-3">
-                    {verified ? (
+                    {isVerified ? (
                       <>
                         {verificationStatus} <FontAwesomeIcon className="text-lime-400" icon={faCircleCheck} />
                       </>

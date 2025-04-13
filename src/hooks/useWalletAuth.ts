@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useWallet } from "../context/WalletContext";
-import { useSignAuth } from "../context/authSingnatureContext";
+import { useSignAuth } from "./useSignAuth";
 import { signMessage } from "../utils/signmessage";
 import { EIP6963ProviderDetail } from "../types/wallet.types";
 import { useToastNotification } from "./useToastNotification";

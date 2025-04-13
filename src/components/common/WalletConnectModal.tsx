@@ -1,26 +1,28 @@
 import React from "react";
-import { useShowWalletPopup } from "../../context/ShowWalletPopup";
 import { useWallet } from "../../context/WalletContext";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 import { EIP6963ProviderDetail } from "../../types/wallet.types";
+import { useAppInstuctor } from "../../context/AppInstuctor";
 
 const WalletConnectModal: React.FC = () => {
-  const { showWalletPopup, setShowWalletPopup } = useShowWalletPopup();
+  const {showWalletpopUp, setAppInstructorData} = useAppInstuctor();
   const { providers, isWalletConnecting, selectedWallet, userAccount } =
     useWallet();
-  const { signinMessage, error, walletConnect } = useWalletAuth();
+  const { signinMessage, walletConnect } = useWalletAuth();
   const navigate = useNavigate();
 
-  if (!showWalletPopup) {
+  if (!showWalletpopUp) {
     return null;
   }
 
   const hangleSignin = async () => {
     const success = await signinMessage();
     if (success) {
-      setShowWalletPopup(false);
+      setAppInstructorData({
+        showWalletpopUp : false
+      })
       navigate("/home");
     }
   };
@@ -31,7 +33,9 @@ const WalletConnectModal: React.FC = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Connect Wallet</h2>
           <button
-            onClick={() => setShowWalletPopup(false)}
+            onClick={() => setAppInstructorData({
+              showWalletpopUp : false
+            })}
             className="text-gray-500 hover:text-gray-700 cursor-pointer"
           >
             &times;

@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWallet } from "../../context/WalletContext";
-import { useShowWalletPopup } from "../../context/ShowWalletPopup";
-import { useSignAuth } from "../../context/authSingnatureContext";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { formatAddress } from "../../utils"; // Use shared function
+import { useAppInstuctor } from "../../context/AppInstuctor";
 
 function Navbar() {
-  const { setShowWalletPopup } = useShowWalletPopup();
-  const { isAuthenticated, isAuthPending } = useSignAuth();
+  const { isAuthenticated, isAuthPending, setAppInstructorData } = useAppInstuctor();
   const { userAccount, isWalletConnecting, isConnected } = useWallet();
   const { signOut } = useWalletAuth();
   const [buttonText, setButtonText] = useState("Connect");
@@ -30,7 +28,9 @@ function Navbar() {
       await signOut();
       navigate("/");
     } else {
-      setShowWalletPopup(true);
+      setAppInstructorData({
+        showWalletpopUp : false
+      })
     }
   };
 

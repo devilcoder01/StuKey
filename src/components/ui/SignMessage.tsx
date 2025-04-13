@@ -6,7 +6,7 @@ import { changeNetwork } from "../../utils/changenetwork";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useShowWalletPopup } from "../../context/ShowWalletPopup";
-import { useSignAuth } from "../../context/authSingnatureContext";
+import { useSignAuth } from "../../hooks/useSignAuth";
 import { useToastNotification } from "../../hooks/useToastNotification";
 
 function SignMessage() {

@@ -8,16 +8,14 @@ import { useWallet } from "../../context/WalletContext";
 import { useStudentContract } from "../../utils/ContractInterection";
 import { useToastNotification } from "../../hooks/useToastNotification";
 import { useUserdetail } from "../../context/userInformation";
+import { useAppInstuctor } from "../../context/AppInstuctor";
 function Mint() {
   const {engagementScore} = useUserdetail();
   const { mintNFT} = useStudentContract();
-
-  
-  const [isMinted, setIsMinted] = useState(false); // State to track if NFT is minted
+  const {isMinted, setAppInstructorData} = useAppInstuctor() // State to track if NFT is minted
   const { userAccount } = useWallet();
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const [githubUsername, setGithubUsername] = useState<string | null>(null);
-  const [isminted, setisminted] = useState(false);
   const { showSuccess, showError, showInfo } = useToastNotification();
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
@@ -88,7 +86,9 @@ function Mint() {
                   showInfo("Initiating NFT minting process...");
                   mintNFT(userAccount, engagementScore || 36)
                     .then(() => {
-                      setIsMinted(true);
+                      setAppInstructorData({
+                        isMinted : true
+                      });
                       showSuccess("NFT minted successfully!");
                     })
                     .catch((error) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSignAuth } from '../context/authSingnatureContext';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import { useAppInstuctor } from '../context/AppInstuctor';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   redirectPath = '/'
 }) => {
-  const { isAuthenticated, isAuthPending } = useSignAuth();
+  const { isAuthenticated, isAuthPending } = useAppInstuctor();
   const location = useLocation();
 
   // Show loading state while checking authentication

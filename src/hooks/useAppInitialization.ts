@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useWallet } from "../context/WalletContext";
-import { useSignAuth } from "../context/authSingnatureContext";
 import { useUserdetail } from "../context/userInformation";
 import { useToastNotification } from "./useToastNotification";
 import { useStudentContract } from "../utils/ContractInterection";
+import { useAppInstuctor } from "../context/AppInstuctor";
 // import { getScoreandNFT } from '../utils/ContractInterection';
 
 // Get backend URL from environment variables
@@ -15,9 +15,7 @@ const backendURL = process.env.BACKEND_URL || "http://localhost:5555";
  * This hook handles fetching user data when the app first loads
  */
 export const useAppInitialization = () => {
-  const [isInitializing, setIsInitializing] = useState(false);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const { isAuthenticated, user } = useSignAuth();
+  const {isInitializing, isDataLoaded,isAuthenticated, setAppInstructorData} = useAppInstuctor()
   const { userAccount, isConnected } = useWallet();
   const { setUserData } = useUserdetail();
   const { showError } = useToastNotification();
@@ -121,7 +119,9 @@ export const useAppInitialization = () => {
   // Initialize app data
   useEffect(() => {
     const initializeApp = async () => {
-      setIsInitializing(true);
+      setAppInstructorData({
+        isInitializing: true
+      });
 
       if (isAuthenticated && isConnected && userAccount) {
         try {
@@ -136,20 +136,28 @@ export const useAppInitialization = () => {
           // Set wallet address in user context
           setUserData({walletAddress: userAccount});
 
-          setIsDataLoaded(userDataFetched || blockchainDataFetched);
+          setAppInstructorData({
+            isDataLoaded : (userDataFetched || blockchainDataFetched)
+          });
         } catch (error) {
           console.error("Error during app initialization:", error);
           showError(
             "Failed to load user data. Please try refreshing the page."
           );
-          setIsDataLoaded(false);
+          setAppInstructorData({
+            isDataLoaded: false
+          });
         }
       } else {
         // If not authenticated, we're still "loaded" just without user data
-        setIsDataLoaded(true);
+        setAppInstructorData({
+          isDataLoaded : true
+        });
       }
 
-      setIsInitializing(false);
+      setAppInstructorData({
+        isInitializing: false,
+      });
     };
 
     initializeApp();

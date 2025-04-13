@@ -5,11 +5,11 @@ import Mint from "../components/page/Mint";
 import Landing from "../components/page/Landing";
 import UserPage from "../components/page/UserPage";
 import ProtectedRoute from "./ProtectedRoute";
-import { useSignAuth } from "../context/authSingnatureContext";
 import { useWallet } from "../context/WalletContext";
+import { useAppInstuctor } from "../context/AppInstuctor";
 
 const AppRoutes: React.FC = () => {
-  const { isAuthenticated } = useSignAuth();
+  const { isAuthenticated } = useAppInstuctor();
   const { isConnected } = useWallet();
   const [isPermission, setIsPermission] = useState(false);
 
