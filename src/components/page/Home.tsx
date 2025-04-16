@@ -73,7 +73,7 @@ function Home() {
   const verificationStatus = nftTokenID ? "Verified " : "Pending";
   return (
     <div ref={container}>
-      <div className="px-6 py-24 flex justify-between items-center max-w-7xl mx-auto">
+      <div className="px-6 py-14 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex flex-col gap-5">
           <h1 className="font-normal text-5xl" ref={welcomeRef}>
             Welcome, <span className="font-semibold">{username}</span>
@@ -112,7 +112,7 @@ function Home() {
             </div>
             <div className="button my-8">
               <button
-                className=" px-9 py-2 bg-[#2B2928] text-white rounded-full cursor-pointer"
+                className=" px-9 py-2  bg-[#2B2928] text-white rounded-full cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                 onClick={() => navigate("/mint")}
               >
                 Verify
@@ -121,14 +121,14 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="px-6 py-24 flex flex-col justify-between items-center max-w-7xl mx-auto">
+      {/* <div className="px-6 py-24 flex flex-col justify-between items-center max-w-7xl mx-auto">
         <div className="w-full mb-12">
           <h1 className="font-semibold text-5xl my-12">You're StuKey</h1>
           <div className="font-normal text-2xl my-12 w-96">
             A Smarter Way to Prove You're a Student.
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -175,9 +175,9 @@ function Mint() {
 
   return (
     <div ref={containerRef}>
-      <div className="px-52 py-20 flex justify-between items-center max-w-7xl mx-auto">
+      <div className="px-52 py-14 flex justify-between items-center max-w-7xl mx-auto">
         <div className=" w-full">
-          <div className="flex justify-between w-full mb-8">
+          <div className="flex justify-between w-full mb-5">
             <div>
               <div className="flex flex-col gap-4">
                 <div className="text-5xl font-medium" ref={titleRef}>Proof of Student</div>
@@ -190,7 +190,7 @@ function Mint() {
                 <button
 
                   onClick={() => handleMintNFT()}
-                  className="px-6 py-3 bg-[#2B2928] text-white rounded-full cursor-pointer"
+                  className="px-5 py-2 bg-[#2B2928] text-white rounded-full cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                 >
                   {isMinted ? "Minted" : "Mint Score"}
                 </button>

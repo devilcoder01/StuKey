@@ -41,10 +41,10 @@ const WalletConnectModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50">
-      <div className="bg-[#1E1E1E] rounded-lg p-6 max-w-md w-full text-white">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50 font-[Satoshi-Regular]">
+      <div className="bg-[#1E1E1E] rounded-4xl p-6 max-w-md w-full text-white">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Connect Wallet</h2>
+          <h2 className="text-2xl font-extrabold">Connect Wallet</h2>
           <button
             onClick={() => setAppInstructorData({
               showWalletpopUp : false
@@ -76,7 +76,7 @@ const WalletConnectModal: React.FC = () => {
                 <div
                   key={provider.info.uuid}
                   onClick={() => walletConnect(provider)}
-                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:bg-gray-800 cursor-pointer"
+                  className="flex items-center justify-between p-4 border border-gray-700 rounded-2xl hover:bg-[#141313] cursor-pointer"
                 >
                   <div className="flex items-center">
                     <img
@@ -86,7 +86,7 @@ const WalletConnectModal: React.FC = () => {
                     />
                     <span className="font-medium">{provider.info.name}</span>
                   </div>
-                  <div className="bg-[#2B2928] px-4 py-2 rounded-sm text-white text-sm">
+                  <div className="bg-[#2B2928] px-4 py-1 rounded-lg text-white text-sm">
                     installed
                   </div>
                 </div>
@@ -115,7 +115,7 @@ const WalletConnectModal: React.FC = () => {
                     </span>
                   </div>
                   <button
-                    className="bg-[#FE0444] px-4 py-2 rounded-sm text-white text-sm cursor-pointer"
+                    className="bg-[#FE0444] px-4 py-1 rounded-lg text-white text-sm cursor-pointer"
                     onClick={() => hangleSignin()}
                   >
                     Sign in

@@ -78,6 +78,10 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     tryRestoreWallet();
   }, [providers]);
 
+
+  /**
+   * Connects the wallet and saves the selected wallet in local storage.
+   */
   const connectWallet = useCallback(async (provider: EIP6963ProviderDetail) => {
     setState(prev => ({ ...prev, isWalletConnecting: true, error: null }));
 
@@ -105,6 +109,10 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, []);
 
+
+  /**
+   * Disconnects the wallet and clears the local storage.
+   */
   const disconnectWallet = useCallback(async () => {
     try {
       if (state.selectedWallet) {
@@ -121,6 +129,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [state.selectedWallet]);
 
+  /**
+   * Switches the chain of the connected wallet.
+   */
   const switchChain = useCallback(async (chainId: string) => {
     if (!state.selectedWallet) {
       setState(prev => ({ ...prev, error: "No wallet connected", isConnected: false }));
@@ -130,7 +141,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     try {
       await state.selectedWallet.provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId }],
+        params: [{ chainId : chainId }],
       });
 
       setState(prev => ({ ...prev, chainId }));
@@ -143,7 +154,10 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const clearError = () => setState(prev => ({ ...prev, error: null }));
 
-  // Wallet event listeners
+
+  /**
+   * Listens for account and chain changes and updates the state accordingly.
+   */
   useEffect(() => {
     const wallet = state.selectedWallet?.provider;
     if (!wallet) return;

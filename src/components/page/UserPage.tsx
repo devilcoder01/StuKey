@@ -97,7 +97,7 @@ function UserPage() {
 
   return (
     <div ref={containerRef}>
-      <div className="px-24 py-40 flex justify-between items-center max-w-7xl mx-auto">
+      <div className="px-24 py-14 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex w-1/2 gap-14">
           <div>
             <div className="imagecontainer mb-9" ref={imageRef}>

@@ -53,14 +53,14 @@ const Credential = ({
         <div className="absolute right-4 bottom-4">
           {isConnected ? (
             <button
-              className="px-2 py-1 bg-[#353231] text-white rounded-lg"
+              className="px-2 py-1 bg-[#353231] text-white rounded-lg transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
               onClick={handleDisconnectClick}
             >
               Connected
             </button>
           ) : (
             <button
-              className="px-2 py-1 bg-[#2B2928] text-white rounded-lg cursor-pointer"
+              className="px-2 py-1 bg-[#2B2928] text-white rounded-lg cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
               onClick={onConnect}
             >
               Connect
