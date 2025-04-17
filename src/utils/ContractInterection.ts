@@ -41,8 +41,7 @@ export const useStudentContract = () => {
       };
     }
   };
-
-  const mintNFT = async (address: string, score: number) => {
+  const tokenURI = async (tokenId: string) => {
     if (!selectedWallet?.provider) {
       throw new Error("No wallet connected");
     }
@@ -50,20 +49,33 @@ export const useStudentContract = () => {
     const contract = getContract(selectedWallet.provider);
 
     try {
+      const result = await contract.methods.tokenURI(tokenId).call();
+      return result;
+    } catch (error) {
+      console.error("Error getting the token URI:", error);
+      return null;
+    }
+  };
+
+  const mintNFT = async (address: string, score: number) => {
+    if (!selectedWallet?.provider) {
+      throw new Error("No wallet connected");
+    }
+    const contract = getContract(selectedWallet.provider);
+
+    try {
       await contract.methods.mintNFT(address, score, 365).send({ from: address });
-      return { success: true };
+      return true;
     } catch (error) {
       console.error("Error minting the NFT:", error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : "An unknown error occurred" 
-      };
+      return false;
     }
   };
 
   return {
     getScoreandNFT , 
-    mintNFT
+    mintNFT,
+    tokenURI,
   };
 }
 

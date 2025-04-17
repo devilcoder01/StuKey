@@ -2,16 +2,20 @@ import React from "react";
 
 function Herosection() {
   return (
-    <div>
-      <div className="max-w-7xl mx-auto px-6 py-24 flex items-center mb-10">
-        <div className="w-1/2">
-          <h1 className="text-6xl/snug font-medium">
-            Unlock Student Savings with
-            <div className=" w-64 py-5">
-              <img src="./icon.svg" alt="Hero icon" className="w-full h-full object-cover" />
-            </div>
+    <div className="">
+      <div className="max-w-7xl mx-auto px-6 py-24 flex justify-center items-center mb-10 font-[Satoshi-Medium] ">
+        <div className="font flex flex-col justify-center items-center">
+          <h1 className="w-[70%] text-6xl/snug text-center">
+            Proof you're Student identity in Blockchain with
           </h1>
-          <p className="text-gray-600 text-lg font-medium">Your NFT Key to Campus Deals</p>
+          <div className=" w-36 py-5">
+            <img
+              src="./white-icon.svg"
+              alt="Hero icon"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <p className="text-[#dadada] text-lg ">Your NFT Key to Campus Deals</p>
         </div>
       </div>
     </div>

@@ -5,13 +5,13 @@ import { signMessage } from "../../utils/signmessage";
 import { changeNetwork } from "../../utils/changenetwork";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useShowWalletPopup } from "../../context/ShowWalletPopup";
-import { useSignAuth } from "../../context/authSingnatureContext";
+import { useSignAuth } from "../../hooks/useSignAuth";
 import { useToastNotification } from "../../hooks/useToastNotification";
+import { useAppInstuctor } from "../../context/AppInstuctor";
 
 function SignMessage() {
   const { userAccount, selectedWallet } = useWallet();
-  const { setShowWalletPopup } = useShowWalletPopup();
+  const { setAppInstructorData } = useAppInstuctor();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useToastNotification();
@@ -26,7 +26,9 @@ function SignMessage() {
       });
       if (response.data.success) {
         showSuccess("Signature verified successfully!");
-        setShowWalletPopup(false);
+        setAppInstructorData({
+          showWalletpopUp : false
+        });
         navigate("/home");
       } else {
         console.error("Signature verification failed.");
@@ -67,7 +69,7 @@ function SignMessage() {
 
   return (
     <div>
-      <div className="mt-4 p-4 border border-gray-300 rounded-full bg-gray-50 flex justify-between items-center">
+      <div className="mt-4 p-4 border border-gray-700 rounded-full bg-gray-800 flex justify-between items-center text-white">
         <div className="flex items-center gap-4">
           <img
             src={selectedWallet?.info?.icon || ""}
@@ -78,7 +80,7 @@ function SignMessage() {
             <div className="font-bold text-lg">
               {selectedWallet?.info?.name || ""}
             </div>
-            <div className="text-gray-600">({formatAddress(userAccount || "")})</div>
+            <div className="text-gray-300">({formatAddress(userAccount || "")})</div>
           </div>
         </div>
         <button
