@@ -20,10 +20,10 @@ function Landing() {
           className="py-12 text-center text-4xl/normal font-thin rounded-lg w-full"
           id="stueky-info"
         >
-          <span className="font-bold bg-[#FE0444] rounded-md px-3">StuKey</span> is a blockchain-based platform that allows students to verify
-          their student status <span className="font-bold bg-[#439001] rounded-md px-3">without sharing personal data</span> . The platform uses <span className="font-bold bg-[#d58803] rounded-md px-3">NFTs </span> (Non-Fungible Tokens)
-          to represent a student's <span className="font-bold bg-[#9603d5] rounded-md px-3">verified</span> status
-          and engagement score, which can be used to access student <span  className="font-bold bg-[#0376d5] rounded-md px-3">discounts</span> 
+          <span className="font-bold bg-[#FE0444] rounded-xl px-3">StuKey</span> is a blockchain-based platform that allows students to verify
+          their student status <span className="font-bold bg-[#439001] rounded-xl px-3">without sharing personal data</span> . The platform uses <span className="font-bold bg-[#d58803] rounded-xl px-3">NFTs </span> (Non-Fungible Tokens)
+          to represent a student's <span className="font-bold bg-[#9603d5] rounded-xl px-3">verified</span> status
+          and engagement score, which can be used to access student <span  className="font-bold bg-[#0376d5] rounded-xl px-3">discounts</span> 
           and benefits from participating merchants.
         </div>
       </div>

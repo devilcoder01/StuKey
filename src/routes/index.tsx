@@ -4,6 +4,7 @@ import Home from "../components/page/Home";
 import Mint from "../components/page/Mint";
 import Landing from "../components/page/Landing";
 import UserPage from "../components/page/UserPage";
+import Store from "../components/page/Store";
 import ProtectedRoute from "./ProtectedRoute";
 import { useWallet } from "../context/WalletContext";
 import { useAppInstuctor } from "../context/AppInstuctor";
@@ -51,6 +52,14 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute>
             <UserPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/store"
+        element={
+          <ProtectedRoute>
+            <Store />
           </ProtectedRoute>
         }
       />

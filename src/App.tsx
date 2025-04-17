@@ -7,12 +7,14 @@ import ToastContainer from "./components/common/ToastContainer";
 import WalletConnectModal from "./components/common/WalletConnectModal";
 import AppInitializer from "./components/common/AppInitializer";
 import { AppInstructorProvider } from "./context/AppInstuctor";
+import { StoreProvider } from "./context/StoreContext";
 import FirstUser from "./components/common/FirstUser";
 function App() {
   return (
     <WalletProvider>
       <AppInstructorProvider>
         <ToastProvider>
+          <StoreProvider>
             <Router>
               <AppInitializer>
                 <div className="flex flex-col min-h-screen">
@@ -26,6 +28,7 @@ function App() {
                 </div>
               </AppInitializer>
             </Router>
+          </StoreProvider>
         </ToastProvider>
       </AppInstructorProvider>
     </WalletProvider>

@@ -87,7 +87,7 @@ function Navbar() {
     );
   }, [logoRef, buttonRef, navRef]);
 
- 
+
 
   return (
     <nav className="bg-[#121212]" ref={navRef}>
@@ -111,19 +111,25 @@ function Navbar() {
               <>
                 <button
                   onClick={() => navigate("/home")}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+                  className="px-3 py-2 rounded-md text-sm font-[Satoshi-Medium] text-gray-300 hover:text-white cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                 >
                   Home
                 </button>
                 <button
                   onClick={() => navigate("/mint")}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+                  className="px-3 py-2 rounded-md text-sm font-[Satoshi-Medium] text-gray-300 hover:text-white cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                 >
                   Mint
                 </button>
                 <button
+                  onClick={() => navigate("/store")}
+                  className="px-3 py-2 rounded-md text-sm font-[Satoshi-Medium] text-gray-300 hover:text-white cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+                >
+                  Store
+                </button>
+                <button
                   onClick={() => navigate("/user")}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+                  className="px-3 py-2 rounded-md text-sm font-[Satoshi-Medium] text-gray-300 hover:text-white cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                 >
                   Profile
                 </button>
@@ -146,7 +152,7 @@ function Navbar() {
               )}
             </button>
 
-             
+
             {!isAuthenticated && !isConnected && (
               <div className="relative text-sm text-gray-300 mr-2 flex">
                 <div className="h-11 w-11 rounded-full bg-amber-500 cursor-pointer flex items-center justify-center">
@@ -176,7 +182,7 @@ function Navbar() {
                 )}
               </div>
             )}
-            
+
           </div>
         </div>
       </div>

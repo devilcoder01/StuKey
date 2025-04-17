@@ -12,10 +12,10 @@ import { useAppInstuctor } from "../../context/AppInstuctor";
 
 function Mint() {
   const { mintNFT } = useStudentContract();
-  const { isMinted, setAppInstructorData, offChainEngagementScore } = useAppInstuctor(); // State to track if NFT is minted
+  const { isMinted, setAppInstructorData, offChainEngagementScore , githubusername} = useAppInstuctor(); // State to track if NFT is minted
   const { userAccount } = useWallet();
   const [isGithubConnected, setIsGithubConnected] = useState(false);
-  const [githubUsername, setGithubUsername] = useState<string | null>(null);
+  // const [githubUsername, setGithubUsername] = useState<string | null>(null);
   const { showSuccess, showError, showInfo } = useToastNotification();
   const [isEmailConnected, setIsEmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
@@ -124,7 +124,7 @@ function Mint() {
     // Here you would typically call an API to disconnect the account
     // For now, we'll just update the UI state
     setIsGithubConnected(false);
-    setGithubUsername(null);
+    // setGithubUsername(null);
     showSuccess("GitHub account disconnected successfully");
   };
 
@@ -175,37 +175,33 @@ function Mint() {
 
   return (
     <div ref={containerRef}>
-      <div className="px-52 py-14 flex justify-between items-center max-w-7xl mx-auto">
-        <div className=" w-full">
-          <div className="flex justify-between w-full mb-5">
+      <div className="px-4 sm:px-8 md:px-16 lg:px-32 xl:px-52 py-8 sm:py-12 md:py-14 flex flex-col lg:flex-row justify-between items-center max-w-7xl mx-auto">
+        <div className="w-full">
+          <div className="flex flex-col lg:flex-row justify-between w-full mb-5 gap-8">
             <div>
               <div className="flex flex-col gap-4">
-                <div className="text-5xl font-medium" ref={titleRef}>Proof of Student</div>
-                <div className="text-[0.7rem] mfont-normal w-96" ref={descriptionRef}>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-[Satoshi-Medium]" ref={titleRef}>Proof of Student</div>
+                <div className="text-xs sm:text-sm md:text-base font-[Satoshi-Regular] max-w-xs sm:max-w-sm md:max-w-md" ref={descriptionRef}>
                   Rewards for Students in the Age of Blockchain — Prove Your
                   Student Identity Without Sharing Personal Data
                 </div>
               </div>
-              <div className="my-11" ref={buttonRef}>
+              <div className="my-8 sm:my-10 md:my-11" ref={buttonRef}>
                 <button
-
                   onClick={() => handleMintNFT()}
-                  className="px-5 py-2 bg-[#2B2928] text-white rounded-full cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+                  className="px-4 sm:px-5 py-2 bg-[#2B2928] text-white rounded-full cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 w-full sm:w-auto font-[Satoshi-Medium]"
                 >
                   {isMinted ? "Minted" : "Mint Score"}
                 </button>
               </div>
             </div>
-            <div ref={scoreRef}>
+            <div ref={scoreRef} className="flex-shrink-0">
               <Score engagePoint={offChainEngagementScore} />
             </div>
           </div>
-          <div className="">
-            <div className="text-lg font-medium mb-5" ref={credentialsRef}>Credentials</div>{" "}
-            {/* Changed title */}
-            <div className="flex gap-4">
-              {" "}
-              {/* Added flex container for credentials */}
+          <div>
+            <div className="text-base sm:text-lg font-[Satoshi-Medium] mb-4 sm:mb-5" ref={credentialsRef}>Credentials</div>
+            <div className="flex flex-col sm:flex-row gap-4">
               {/* GitHub Credential Instance */}
               <Credential
                 icon={faGithub}
@@ -213,7 +209,7 @@ function Mint() {
                 description="Connect your GitHub to verify your activity"
                 points={20}
                 isConnected={isGithubConnected}
-                username={githubUsername}
+                username={"msjan"}
                 onConnect={handleGithubConnect}
                 onDisconnect={handleGithubDisconnect}
               />
@@ -224,7 +220,7 @@ function Mint() {
                 description="Connect your Email to verify your identity"
                 points={10}
                 isConnected={isEmailConnected}
-                username={emailAddress} // Display email if connected
+                username={emailAddress}
                 onConnect={handleEmailConnect}
                 onDisconnect={handleEmailDisconnect}
               />

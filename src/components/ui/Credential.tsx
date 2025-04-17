@@ -35,20 +35,20 @@ const Credential = ({
 
   return (
     <div>
-      <div className="w-72 h-40 rounded-2xl bg-[#D9D9D9] text-black px-8 flex flex-col justify-center gap-5 relative">
-        <div className="flex gap-5 items-center">
-          <div className="text-3xl">
+      <div className="w-72 h-40 rounded-2xl bg-[#D9D9D9] text-black px-8 flex flex-col justify-center relative">
+        <div className="absolute top-4 left-8 flex items-center gap-3">
+          <div className="text-xl">
             <FontAwesomeIcon icon={icon} />
           </div>
-          {username && (
-            <div className="text-lg">{username}</div>
-          )}
+          <div>
+            <div className="text-sm font-semibold">{title}</div>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <div className="text-lg font-semibold">{title}</div>
-          <div className="text-[0.7rem] w-32">{description}</div>
+        <div className="flex flex-col gap-2 mb-8">
+          {username && <div className="text-xl font-medium  ">{username}</div>}
         </div>
+        <div className="absolute bottom-4 left-8 text-[0.7rem] w-32">{description}</div>
 
         <div className="absolute right-4 bottom-4">
           {isConnected ? (

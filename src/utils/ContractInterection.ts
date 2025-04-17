@@ -41,6 +41,21 @@ export const useStudentContract = () => {
       };
     }
   };
+  const tokenURI = async (tokenId: string) => {
+    if (!selectedWallet?.provider) {
+      throw new Error("No wallet connected");
+    }
+
+    const contract = getContract(selectedWallet.provider);
+
+    try {
+      const result = await contract.methods.tokenURI(tokenId).call();
+      return result;
+    } catch (error) {
+      console.error("Error getting the token URI:", error);
+      return null;
+    }
+  };
 
   const mintNFT = async (address: string, score: number) => {
     if (!selectedWallet?.provider) {
@@ -59,7 +74,8 @@ export const useStudentContract = () => {
 
   return {
     getScoreandNFT , 
-    mintNFT
+    mintNFT,
+    tokenURI,
   };
 }
 

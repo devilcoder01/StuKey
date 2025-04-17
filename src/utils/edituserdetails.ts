@@ -1,15 +1,24 @@
-import axios from "axios"
-import dotenv from "dotenv"
+import axios from "axios";
 
-dotenv.config();
+// Get backend URL from environment variables
+const backendURL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5555";
 
+/**
+ * Updates the username for a user
+ * @param username - The new username
+ * @param walletAddress - The wallet address of the user
+ * @returns The status code of the request
+ */
+export const EditUserInfo = async(username: string, walletAddress: string) => {
+    try {
+        const response = await axios.put(`${backendURL}/api/v1/update`, {
+            username: username,
+            walletAddress: walletAddress,
+        });
 
-export const EditUserInfo = async(username : string, walletAddress: string) => {
-    const update = await axios.post(`${process.env.BACKEND_URL}/api/v1/updateusername`,{
-        body : {
-            username : username,
-            walletAddress : walletAddress,
-        }
-    })
-    return update.status;
+        return response.status;
+    } catch (error) {
+        console.error("Error updating username:", error);
+        throw error;
+    }
 }

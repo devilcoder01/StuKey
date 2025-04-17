@@ -72,7 +72,7 @@ function Home() {
   // Determine verification status based on NFT token ID
   const verificationStatus = nftTokenID ? "Verified " : "Pending";
   return (
-    <div ref={container}>
+    <div ref={container} className="font-[Satoshi-Regular]">
       <div className="px-6 py-14 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex flex-col gap-5">
           <h1 className="font-normal text-5xl" ref={welcomeRef}>
