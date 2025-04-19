@@ -60,25 +60,25 @@ const Credential = ({
             <FontAwesomeIcon icon={icon} />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-satoshi-medium">{title}</div>
+            <div className="text-xs sm:text-sm font-[Satoshi-Bold]">{title}</div>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 mb-8 mt-8">
-          {username && <div className="text-lg sm:text-xl font-satoshi-medium truncate">{username}</div>}
+          {username && <div className="text-lg sm:text-xl font-[Satoshi-Bold] truncate">{username}</div>}
 
           {/* GitHub Metrics Section */}
           {isConnected && metrics && (
             <div className="mt-2">
               <button
                 onClick={() => setShowMetrics(!showMetrics)}
-                className="text-xs underline text-gray-700 mb-1 font-sans"
+                className="text-xs underline text-gray-700 mb-1 font-[Satoshi-Regular]"
               >
                 {showMetrics ? 'Hide metrics' : 'Show metrics'}
               </button>
 
               {showMetrics && (
-                <div className="bg-gray-200 p-2 rounded-lg text-xs space-y-1 mt-1 font-sans">
+                <div className="bg-gray-200 p-2 rounded-lg text-xs space-y-1 mt-1 font-[Satoshi-Regular]">
                   <div className="flex items-center gap-1">
                     <FontAwesomeIcon icon={faCode} className="text-gray-700" />
                     <span>Commits: {metrics.commits}</span>
@@ -113,7 +113,7 @@ const Credential = ({
           )}
         </div>
 
-        <div className="absolute bottom-4 left-4 sm:left-8 text-[0.65rem] sm:text-[0.7rem] w-28 sm:w-32 font-sans">{description}</div>
+        <div className="absolute bottom-4 left-4 sm:left-8 text-[0.65rem] sm:text-[0.7rem] w-28 sm:w-32 font-[Satoshi-Regular]">{description}</div>
 
         <div className="absolute right-4 bottom-4">
           {isConnected ? (
@@ -136,8 +136,8 @@ const Credential = ({
         </div>
 
         <div className="absolute right-4 top-4 text-right">
-          <div className="text-xl sm:text-2xl font-satoshi-bold">{points}</div>
-          <div className="text-[0.65rem] sm:text-[0.7rem] font-sans">points</div>
+          <div className="text-xl sm:text-2xl font-[Satoshi-Bold]">{points}</div>
+          <div className="text-[0.65rem] sm:text-[0.7rem] font-[Satoshi-Regular]">points</div>
         </div>
       </div>
 
