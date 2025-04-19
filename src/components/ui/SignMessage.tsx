@@ -2,10 +2,10 @@ import { useState } from "react";
 import { formatAddress } from "../../utils";
 import { useWallet } from "../../context/WalletContext";
 import { signMessage } from "../../utils/signmessage";
-import { changeNetwork } from "../../utils/changenetwork";
+// import { changeNetwork } from "../../utils/changenetwork";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSignAuth } from "../../hooks/useSignAuth";
+// import { useSignAuth } from "../../hooks/useSignAuth";
 import { useToastNotification } from "../../hooks/useToastNotification";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 
@@ -18,7 +18,7 @@ function SignMessage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useToastNotification();
-  const {login} = useSignAuth();
+  // const {login} = useSignAuth();
 
   const verifySignHash = async (signHash: string, message: string) => {
     try {
@@ -56,7 +56,7 @@ function SignMessage() {
       }
       const signHash = await signMessage(selectedWallet, userAccount, message);
       if (typeof signHash === "string") {
-        await changeNetwork(selectedWallet);
+        // await changeNetwork(selectedWallet);
         await verifySignHash(signHash, message);
       } else {
         console.error("Invalid signHash type:", signHash);

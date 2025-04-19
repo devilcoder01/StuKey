@@ -16,8 +16,8 @@ function Mint() {
   const { userAccount } = useWallet();
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const { showSuccess, showError, showInfo } = useToastNotification();
-  const [ setIsEmailConnected] = useState(false);
-  const [ setEmailAddress] = useState<string | null>(null);
+  // const [ setIsEmailConnected] = useState(false);
+  // const [ setEmailAddress] = useState<string | null>(null);
   const [githubMetrics, setGithubMetrics] = useState<any>(null);
   const [isLoadingGithub, setIsLoadingGithub] = useState(false);
   const [lastScanned, setLastScanned] = useState<Date | null>(null);

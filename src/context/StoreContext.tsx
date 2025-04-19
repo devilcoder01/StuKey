@@ -139,8 +139,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const result = await getScoreandNFT(userAccount);
 
         if (result.success) {
-          const score = parseInt(result.score);
-          if (!isNaN(score)) {
+          const score: number | null | undefined = result.score ? parseInt(result.score) : null;
+          if (score !== null && !isNaN(score)) {
             nftScoreRef.current = score;
             lastUserAccountRef.current = userAccount;
             console.log('NFT Score retrieved and cached:', score);
