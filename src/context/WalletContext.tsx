@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useSyncProviders } from "../hooks/useSyncProviders";
 import { EIP6963ProviderDetail } from "../types/wallet.types";
+import { SUPPORTED_NETWORKS } from "../config/networks";
 /**
- *   
+ *
  *connectWallet,
   disconnectWallet,
   switchChain,
@@ -134,6 +135,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   /**
    * Switches the chain of the connected wallet.
+   * If the chain doesn't exist in the wallet, it will attempt to add it.
    */
   const switchChain = useCallback(async (chainId: string) => {
     if (!state.selectedWallet) {
@@ -142,16 +144,55 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
 
     try {
+      // First try to switch to the chain
       await state.selectedWallet.provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId : chainId }],
+        params: [{ chainId }],
       });
 
       setState(prev => ({ ...prev, chainId }));
       return true;
     } catch (err: any) {
-      setState(prev => ({ ...prev, error: err?.message || "Chain switch failed" }));
-      return false;
+      // If the error code is 4902, the chain is not added to the wallet
+      if (err.code === 4902) {
+        try {
+          // Find the network configuration
+          const networkConfig = SUPPORTED_NETWORKS.find(network => network.chainId === chainId);
+
+          if (!networkConfig) {
+            setState(prev => ({ ...prev, error: "Network configuration not found" }));
+            return false;
+          }
+
+          // Request to add the chain to the wallet
+          await state.selectedWallet.provider.request({
+            method: "wallet_addEthereumChain",
+            params: [{
+              chainId: networkConfig.chainId,
+              chainName: networkConfig.chainName,
+              nativeCurrency: networkConfig.nativeCurrency,
+              rpcUrls: networkConfig.rpcUrls,
+              blockExplorerUrls: networkConfig.blockExplorerUrls
+            }],
+          });
+
+          // After adding, try to switch again
+          await state.selectedWallet.provider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId }],
+          });
+
+          setState(prev => ({ ...prev, chainId }));
+          return true;
+        } catch (addError: any) {
+          setState(prev => ({ ...prev, error: addError?.message || "Failed to add network" }));
+          return false;
+        }
+      } else {
+        const errorMessage = err?.message || "Chain switch failed";
+        setState(prev => ({ ...prev, error: errorMessage }));
+        return false;
+      }
     }
   }, [state.selectedWallet]);
 

@@ -1,9 +1,9 @@
 
-import dontenv from "dotenv";
+import dotenv from "dotenv";
 import ABI from "../abi/Contract_ABI.json";
 import {Contract} from "web3-eth-contract";
 import { useWallet } from "../context/WalletContext";
-dontenv.config();
+dotenv.config();
 
 const STUDENT_NFT_CONTRACT_ADDRESS = process.env.SEPOLIA_CONTRACT_ADDR || "0xc3C1Cc288c285Fb21D2824A645ed51D52D3c4BDc";
 
@@ -19,7 +19,7 @@ export const getContract = (provider: any) => {
 // Create a custom hook to get the contract with the current wallet
 export const useStudentContract = () => {
   const { selectedWallet } = useWallet();
-  
+
   const getScoreandNFT = async (address: string) => {
     if (!selectedWallet?.provider) {
       throw new Error("No wallet connected");
@@ -30,14 +30,17 @@ export const useStudentContract = () => {
     try {
       const result = await contract.methods.getStudentScore_or_nftID(address).call();
 
-      const tokenId = result._tokenIds ? result._tokenIds.toString() : '0';
-      const score = result._score ? result._score.toString() : '0';
+      // Type assertion to handle the contract return type
+      const contractResult = result as unknown as { _tokenIds: string | number, _score: string | number };
+
+      const tokenId = contractResult._tokenIds ? contractResult._tokenIds.toString() : '0';
+      const score = contractResult._score ? contractResult._score.toString() : '0';
       return { success: true, tokenId, score };
     } catch (error) {
       console.error("Error getting the score:", error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : "An unknown error occurred" 
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "An unknown error occurred"
       };
     }
   };
@@ -72,10 +75,26 @@ export const useStudentContract = () => {
     }
   };
 
+  const updateEngageScore = async (address: string, newScore: number) => {
+    if (!selectedWallet?.provider) {
+      throw new Error("No wallet connected");
+    }
+    const contract = getContract(selectedWallet.provider);
+
+    try {
+      await contract.methods.updateEngageScore(address, newScore).send({ from: address });
+      return true;
+    } catch (error) {
+      console.error("Error updating NFT score:", error);
+      return false;
+    }
+  };
+
   return {
-    getScoreandNFT , 
+    getScoreandNFT,
     mintNFT,
     tokenURI,
+    updateEngageScore,
   };
 }
 

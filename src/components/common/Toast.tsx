@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Toast as ToastType, useToast } from '../../context/ToastContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faCircleExclamation, faExclamation, faTriangleExclamation, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faXmark, faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+
 interface ToastProps {
   toast: ToastType;
 }
@@ -10,87 +11,73 @@ const Toast: React.FC<ToastProps> = ({ toast }) => {
   const { removeToast } = useToast();
   const [isExiting, setIsExiting] = useState(false);
 
-  // Set background color based on toast type
-  const getBgColor = () => {
-    switch (toast.type) {
-      case 'success':
-        return 'bg-[#78A083]';
-      case 'error':
-        return 'bg-[#BE3144]';
-      case 'warning':
-        return 'bg-[#D49B54]';
-      case 'info':
-        return 'bg-[#0E2954]';
-      default:
-        return 'bg-[#A594F9]';
+  // Toast configuration based on type
+  const toastConfig = {
+    success: {
+      icon: faCheck,
+      bgColor: 'bg-green-500',
+      borderColor: 'border-green-600'
+    },
+    error: {
+      icon: faXmark,
+      bgColor: 'bg-red-500',
+      borderColor: 'border-red-600'
+    },
+    warning: {
+      icon: faExclamationTriangle,
+      bgColor: 'bg-amber-500',
+      borderColor: 'border-amber-600'
+    },
+    info: {
+      icon: faInfoCircle,
+      bgColor: 'bg-blue-500',
+      borderColor: 'border-blue-600'
     }
+  }[toast.type] || {
+    icon: faInfoCircle,
+    bgColor: 'bg-gray-700',
+    borderColor: 'border-gray-800'
   };
 
-  // Get icon based on toast type
-  const getIcon = () => {
-    switch (toast.type) {
-      case 'success':
-        return (
-          <FontAwesomeIcon icon={faCircleCheck} />
-        );
-      case 'error':
-        return (
-          <FontAwesomeIcon icon = {faXmark} />
-        );
-      case 'warning':
-        return (
-         <FontAwesomeIcon icon={faTriangleExclamation} />
-        );
-      case 'info':
-        return (
-          <FontAwesomeIcon icon={faCircleExclamation} />
-        );
-      default:
-        return null;
-    }
-  };
-
-  // Handle close button click
+  // Handle close
   const handleClose = () => {
     setIsExiting(true);
-    setTimeout(() => {
-      removeToast(toast.id);
-    }, 300); // Match this with the CSS transition time
+    setTimeout(() => removeToast(toast.id), 200);
   };
 
   // Auto-remove toast after duration
   useEffect(() => {
-    if (toast.duration !== Infinity) {
+    // Default duration is 5000ms if not specified
+    const duration = toast.duration ?? 5000;
+
+    if (duration !== Infinity) {
       const timer = setTimeout(() => {
         setIsExiting(true);
-        setTimeout(() => {
-          removeToast(toast.id);
-        }, 300);
-      }, toast.duration - 300); // Subtract transition time
+        setTimeout(() => removeToast(toast.id), 200);
+      }, duration - 200);
 
       return () => clearTimeout(timer);
     }
   }, [toast, removeToast]);
 
   return (
-    <div 
-      className={`flex items-center w-full max-w-xs p-4 mb-4 text-white rounded-full shadow-lg ${getBgColor()} ${
-        isExiting ? 'animate-fade-out' : 'animate-fade-in'
-      } transition-opacity duration-3000 relative`}
+    <div
+      className={`flex items-center w-auto max-w-xs py-2 px-3 mb-2 text-white rounded-md shadow-md
+        ${toastConfig.bgColor} border-l-4 ${toastConfig.borderColor}
+        ${isExiting ? 'opacity-0 translate-x-3' : 'opacity-100'}
+        transform transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-[1.02]`}
       role="alert"
+      onClick={handleClose}
     >
-      <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8  text-white">
-        {getIcon()}
+      <div className="flex-shrink-0 mr-2">
+        <FontAwesomeIcon icon={toastConfig.icon} className="text-sm" />
       </div>
-      <div className="mx-2 text-sm font-semibold">{toast.message}</div>
-      <button
-        type="button"
-        className="ml-auto -mx-1.5 -my-1.5 text-white hover:text-gray-200 focus:outline-none absolute top-4 right-4 opacity-0"
-        onClick={handleClose}
-        aria-label="Close"
-      >
-        <FontAwesomeIcon icon={faXmark} />
-      </button>
+      <p className="text-sm font-medium truncate">{toast.message}</p>
+      <div className="ml-auto pl-3">
+        <div className="inline-flex items-center justify-center rounded-md text-white hover:bg-white hover:bg-opacity-20 p-1">
+          <FontAwesomeIcon icon={faXmark} className="text-xs" />
+        </div>
+      </div>
     </div>
   );
 };

@@ -6,6 +6,12 @@ export default {
   ],
   darkMode: 'class',
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      satoshi: ['Satoshi-Regular', 'sans-serif'],
+      'satoshi-medium': ['Satoshi-Medium', 'sans-serif'],
+      'satoshi-bold': ['Satoshi-Bold', 'sans-serif'],
+    },
     extend: {
       colors: {
         primary: {

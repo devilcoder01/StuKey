@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Get backend URL from environment variables
-const backendURL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5555";
+const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
 
 /**
  * Updates the username for a user

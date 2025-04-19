@@ -4,7 +4,7 @@ import { useAppInstuctor } from '../../context/AppInstuctor'; // Assuming this c
 import { useToastNotification } from '../../hooks/useToastNotification';
 import { useAppInitialization } from '../../hooks/useAppInitialization';
 
-const backendURL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5555";
+const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
 
 function FirstUser() {
   const [username, setUsername] = useState("");

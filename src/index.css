@@ -3,12 +3,18 @@
 
 @import "tailwindcss";
 
+/* Set default font to Inter */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Heading styles with Satoshi font */
+h1, h2, h3, h4, h5, h6,
+.text-heading {
+  font-family: 'Satoshi-Regular', sans-serif;
+}
 
 /* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
-    width: 0px; /* Width of the scrollbar */
-  }
-
-/* body {
-  font-family: Satoshi-Regular;
-} */
+  width: 0px; /* Width of the scrollbar */
+}

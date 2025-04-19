@@ -55,18 +55,18 @@ const Store: React.FC = () => {
 
   return (
     <div ref={containerRef} className="min-h-screen bg-background-light dark:bg-background-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <h1
             ref={titleRef}
-            className="text-4xl font-bold text-text-light dark:text-text-dark mb-4"
+            className="text-3xl sm:text-4xl font-satoshi-bold text-text-light dark:text-text-dark mb-3 sm:mb-4"
           >
             Student Store
           </h1>
           <p
             ref={descriptionRef}
-            className="text-lg text-secondary-light dark:text-secondary-dark max-w-2xl mx-auto"
+            className="text-base sm:text-lg text-secondary-light dark:text-secondary-dark max-w-2xl mx-auto px-2 font-sans"
           >
             Exclusive products and services for students with special discounts based on your StuKey NFT score.
           </p>
@@ -75,7 +75,7 @@ const Store: React.FC = () => {
         {/* Products Grid */}
         <div
           ref={productsRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
         >
           {products.map(product => (
             <ProductCard key={product.id} product={product} />

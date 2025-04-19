@@ -1,6 +1,6 @@
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 // Define the props type
 interface ScoreProps {
@@ -13,19 +13,20 @@ function Score({ engagePoint }: ScoreProps) {
 
   return (
     <div>
-        <div className="w-80 h-44 rounded-2xl bg-gradient-to-b relative from-[#493F3F] to-[#7B3041] text-white px-8 flex flex-col justify-center gap-5 ">
-            <div className='text-sm font-semibold'>You're Stukey Score</div>
+        <div className="w-full sm:w-80 h-36 sm:h-44 rounded-2xl bg-gradient-to-b relative from-[#493F3F] to-[#7B3041] text-white px-4 sm:px-8 flex flex-col justify-center gap-3 sm:gap-5">
+            <div className='text-xs sm:text-sm font-satoshi-medium'>Your Stukey Score</div>
             {/* Conditionally render or provide default */}
-            <div className='text-3xl flex gap-2 font-semibold'><span>{engagePoint ?? '--'}</span>/<span>100</span></div>
-            <div 
-              className="exclamatory text-gray-300 absolute right-5 top-5 cursor-pointer"
+            <div className='text-2xl sm:text-3xl flex gap-2 font-satoshi-bold'><span>{engagePoint ?? '--'}</span>/<span>100</span></div>
+            <div
+              className="exclamatory text-gray-300 absolute right-3 sm:right-5 top-3 sm:top-5 cursor-pointer"
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
+              onClick={() => setShowTooltip(!showTooltip)} // Added for touch devices
             >
                 <FontAwesomeIcon icon={faCircleExclamation} />
                 {showTooltip && (
                   <div
-                    className="absolute top-8 right-0 bg-white text-black text-xs rounded-lg shadow-lg p-2 w-28"
+                    className="absolute top-8 right-0 bg-white text-black text-xs rounded-lg shadow-lg p-2 w-28 z-10 font-sans"
                     style={{ transform: "translateX(50%)" }}
                   >
                     This is your Stukey score tooltip.

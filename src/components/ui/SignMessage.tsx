@@ -9,6 +9,9 @@ import { useSignAuth } from "../../hooks/useSignAuth";
 import { useToastNotification } from "../../hooks/useToastNotification";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 
+// Get backend URL from environment variables
+const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+
 function SignMessage() {
   const { userAccount, selectedWallet } = useWallet();
   const { setAppInstructorData } = useAppInstuctor();
@@ -19,7 +22,7 @@ function SignMessage() {
 
   const verifySignHash = async (signHash: string, message: string) => {
     try {
-      const response = await axios.post("http://localhost:5555/api/v1/verify", {
+      const response = await axios.post(`${backendURL}/api/v1/verify`, {
         message,
         signature: signHash,
         address: userAccount,

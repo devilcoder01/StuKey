@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5555/api/v1';
+// Get backend URL from environment variables
+const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+const API_URL = `${backendURL}/api/v1`;
 
 export const verifySignature = async (message: string, signature: string, address: string) => {
   try {
@@ -9,7 +11,7 @@ export const verifySignature = async (message: string, signature: string, addres
       signature,
       address,
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error verifying signature:', error);
@@ -27,21 +29,21 @@ export const getAuthState = () => {
   const address = localStorage.getItem('auth_address');
   const signature = localStorage.getItem('auth_signature');
   const timestamp = localStorage.getItem('auth_timestamp');
-  
+
   if (!address || !signature || !timestamp) {
     return null;
   }
-  
+
   // Optional: Check if the session is expired (e.g., after 24 hours)
   const expirationTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
   const currentTime = Date.now();
   const storedTime = parseInt(timestamp, 10);
-  
+
   if (currentTime - storedTime > expirationTime) {
     clearAuthState();
     return null;
   }
-  
+
   return { address, signature };
 };
 
