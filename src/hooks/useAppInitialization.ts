@@ -102,7 +102,7 @@ export const useAppInitialization = () => {
           setAppInstructorData({
             walletAddress: walletAddress,
             nftTokenID: result.tokenId,
-            onChainEngagementScore: result.score,
+            onChainEngagementScore: Number(result.score),
           });
           return true;
         }
