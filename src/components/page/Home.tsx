@@ -125,11 +125,10 @@ function Home() {
                 <span className="text-lg sm:text-xl flex justify-center items-center gap-2 sm:gap-3">
                   {isVerified ? (
                     <>
-                      <span className="text-green-500">{verificationStatus}</span>{" "}
-                      <FontAwesomeIcon className="text-lime-400" icon={faCircleCheck} />
+                      <span className="text-green-200 bg-green-800 rounded-md text-sm px-3 py-0.5 font-semibold">{verificationStatus}</span>{" "}
                     </>
                   ) : (
-                    <span className="text-red-500">{verificationStatus}</span>
+                    <span className="text-red-200 bg-red-800 rounded-md text-sm px-3 py-0.5 font-semibold">{verificationStatus}</span>
                   )}
                 </span>
               </div>
@@ -140,10 +139,10 @@ function Home() {
             </div>
             <div className="button my-6 sm:my-8">
               <button
-                className="px-6 sm:px-9 py-2 bg-[#2B2928] text-white rounded-full cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 text-sm sm:text-base"
+                className="px-6 sm:px-5 py-2 bg-[#2B2928] text-white rounded-full cursor-pointer transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 text-sm sm:text-base"
                 onClick={() => navigate("/mint")}
               >
-                {isVerified ? "Update Verification" : "Verify Now"}
+                {isVerified ? "Go to Mint" : "Verify Now"}
               </button>
             </div>
           </div>

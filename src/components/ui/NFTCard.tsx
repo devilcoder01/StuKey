@@ -63,15 +63,15 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, score, walletAddress }) => {
   };
 
   return (
-    <div className="w-full max-w-sm bg-gradient-to-b from-[#493F3F] to-[#7B3041] rounded-xl overflow-hidden shadow-lg">
+    <div className="w-full max-w-sm bg-[#1E1E1E]  rounded-xl overflow-hidden shadow-lg">
       <div className="p-6">
         <div className="flex justify-between items-start mb-4">
           <div>
             <h3 className="text-xl font-semibold text-white">Student NFT</h3>
             <p className="text-gray-300 text-sm">Token ID: #{tokenId}</p>
           </div>
-          <div className="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-            <span className="text-black text-sm font-medium">Active</span>
+          <div className="bg-green-900 bg-opacity-20 px-3 py-1 rounded-lg">
+            <span className="text-green-300 text-sm font-medium">Active</span>
           </div>
         </div>
 

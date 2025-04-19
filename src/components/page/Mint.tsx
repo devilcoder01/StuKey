@@ -5,7 +5,6 @@ import axios from "axios";
 import Score from "../ui/Score";
 import Credential from "../ui/Credential";
 import { faGithub } from "@fortawesome/free-brands-svg-icons"; // Import icons
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useWallet } from "../../context/WalletContext";
 import { useStudentContract } from "../../utils/ContractInterection";
 import { useToastNotification } from "../../hooks/useToastNotification";
@@ -365,7 +364,7 @@ function Mint() {
             <div>
               <div className="flex flex-col gap-4">
                 <div className="text-3xl sm:text-4xl md:text-5xl font-satoshi-medium" ref={titleRef}>Proof of Student</div>
-                <div className="text-xs sm:text-sm md:text-base font-satoshi max-w-xs sm:max-w-sm md:max-w-md" ref={descriptionRef}>
+                <div className="text-sm sm:text-sm md:text-base font-[Satoshi-Regular] max-w-xs sm:max-w-sm md:max-w-md" ref={descriptionRef}>
                   Rewards for Students in the Age of Blockchain — Prove Your
                   Student Identity Without Sharing Personal Data
                 </div>
@@ -411,7 +410,7 @@ function Mint() {
                 onRefresh={triggerGithubScan}
               />
               {/* Email Credential Instance (Example) */}
-              <Credential
+              {/* <Credential
                 icon={faEnvelope}
                 title="Email"
                 description="Connect your Email to verify your identity"
@@ -420,7 +419,7 @@ function Mint() {
                 username={emailAddress}
                 onConnect={handleEmailConnect}
                 onDisconnect={handleEmailDisconnect}
-              />
+              /> */}
               {/* Add more Credential instances here for other types */}
             </div>
           </div>

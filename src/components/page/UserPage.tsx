@@ -22,6 +22,7 @@ function UserPage() {
   const detailsRef = useRef(null);
   const buttonRef = useRef(null);
   const nftCardRef = useRef(null);
+  const usernameRef = useRef(null);
 
   // GSAP Timeline Animation
   useGSAP(() => {
@@ -60,8 +61,19 @@ function UserPage() {
     );
 
     // Animate the wallet address
+
     tl.from(
       walletRef.current,
+      {
+        opacity: 0,
+        x: -30,
+        duration: 0.4,
+        ease: 'power3.out',
+      },
+      '-=0.3'
+    );
+    tl.from(
+      usernameRef.current,
       {
         opacity: 0,
         x: -30,
@@ -142,7 +154,7 @@ function UserPage() {
                 <div className="walletadddr text-sm font-normal mb-2 text-gray-400" ref={walletRef}>
                   {displayAddress}
                 </div>
-                <h2 className="text-2xl font-semibold text-white">{username || 'Anonymous Student'}</h2>
+                <h2 className="text-2xl font-semibold text-white" ref={usernameRef}>{username || 'Anonymous Student'}</h2>
                 {email && <p className="text-gray-400">{email}</p>}
               </div>
             </div>

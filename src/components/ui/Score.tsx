@@ -13,7 +13,7 @@ function Score({ engagePoint }: ScoreProps) {
 
   return (
     <div>
-        <div className="w-full sm:w-80 h-36 sm:h-44 rounded-2xl bg-gradient-to-b relative from-[#493F3F] to-[#7B3041] text-white px-4 sm:px-8 flex flex-col justify-center gap-3 sm:gap-5">
+        <div className="w-full sm:w-80 h-36 sm:h-44 rounded-2xl bg-gradient-to-r relative from-[#040404] to-[#5f1123] text-white px-4 sm:px-8 flex flex-col justify-center gap-3 sm:gap-5">
             <div className='text-xs sm:text-sm font-satoshi-medium'>Your Stukey Score</div>
             {/* Conditionally render or provide default */}
             <div className='text-2xl sm:text-3xl flex gap-2 font-satoshi-bold'><span>{engagePoint ?? '--'}</span>/<span>100</span></div>
