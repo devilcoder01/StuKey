@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import ToastDemo from "../common/ToastDemo";
 import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCheckDouble, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import gsap from "gsap";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 import { useGSAP } from "@gsap/react";
@@ -11,7 +10,7 @@ gsap.registerPlugin();
 
 function Home() {
   const navigate = useNavigate();
-  const { isVerified, setAppInstructorData, username, offChainEngagementScore, nftTokenID } = useAppInstuctor();
+  const { isVerified, setAppInstructorData, username, onChainEngagementScore, nftTokenID } = useAppInstuctor();
 
   // Create refs for elements we want to animate
   const welcomeRef = useRef(null);
@@ -67,7 +66,7 @@ function Home() {
         isVerified: true,
       });
     }
-  }, [nftTokenID]);
+  }, [nftTokenID, setAppInstructorData]);
 
   // Determine verification status based on NFT token ID
   const verificationStatus = nftTokenID ? "Verified " : "Pending";
@@ -107,7 +106,7 @@ function Home() {
               </div>
               <div className="flex my-4 gap-2">
                 <span className="text-xl font-semibold">Stukey Score:</span>
-                <span className="text-xl">{offChainEngagementScore || 0}</span>
+                <span className="text-xl">{onChainEngagementScore || 0}</span>
               </div>
             </div>
             <div className="button my-8">

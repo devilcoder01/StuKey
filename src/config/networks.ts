@@ -1,4 +1,3 @@
-import { Chain } from 'viem'
 
 export interface NetworkConfig {
   chainId: string;
@@ -28,7 +27,7 @@ export const SUPPORTED_NETWORKS: NetworkConfig[] = [
   },
   {
     chainId: '0x2105',
-    chainName: 'Base',
+    chainName: 'Base Mainnet',
     nativeCurrency: {
       name: 'Ether',
       symbol: 'ETH',
@@ -38,6 +37,30 @@ export const SUPPORTED_NETWORKS: NetworkConfig[] = [
     blockExplorerUrls: ['https://basescan.org'],
     iconUrl: '/icons/base.svg'
   },
+  {
+    chainId : '0x279F',
+    chainName: 'Monad Testnet',
+    nativeCurrency: {
+      name: 'Monad',
+      symbol: 'MON',
+      decimals: 18,
+    },
+    rpcUrls: ['https://testnet-rpc.monad.xyz'],
+    blockExplorerUrls: ['https://testnet.monadexplorer.com/'],
+    iconUrl: '/icons/monad.svg'
+  },
+  {
+    chainId : "0x4268",
+    chainName: "Holeskey Testnet",
+    nativeCurrency: {
+      name: "Holeskey",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://1rpc.io/holeskey"],
+    blockExplorerUrls: ["https://holeskey-testnet.monadexplorer.com/"],
+    iconUrl: "/icons/holeskey.svg",
+  }
   // Add more networks as needed
 ];
 

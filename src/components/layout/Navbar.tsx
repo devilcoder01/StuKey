@@ -3,20 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { useWallet } from "../../context/WalletContext";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { formatAddress } from "../../utils"; // Use shared function
 import { useAppInstuctor } from "../../context/AppInstuctor";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import {SUPPORTED_NETWORKS, NetworkConfig} from "../../config/networks";
 
 function Navbar() {
   const { isAuthenticated, isAuthPending, setAppInstructorData } =
     useAppInstuctor();
-  const { userAccount, isWalletConnecting, isConnected } = useWallet();
+  const { isWalletConnecting, isConnected, switchChain,chainId } = useWallet();
   const { signOut } = useWalletAuth();
   const [buttonText, setButtonText] = useState("Connect");
   const navigate = useNavigate();
+  const [networkName, setNetworkName] = useState<string>("Ethereum Mainnet");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Refs for GSAP animations
@@ -27,11 +26,13 @@ function Navbar() {
   useEffect(() => {
     if (isConnected) {
       setButtonText("Disconnect");
+      currentNetwork();
     } else {
       navigate("/");
       setButtonText("Connect");
     }
   }, [isConnected, isAuthenticated]);
+
 
   const handleWalletAction = async () => {
     if (isConnected) {
@@ -43,10 +44,19 @@ function Navbar() {
       });
     }
   };
-
-
-  function handleChainSelect(chain: string): void {
-    console.log(`Selected chain: ${chain}`);
+  const currentNetwork = async () => {
+    if (!chainId) return;
+    const network = SUPPORTED_NETWORKS.find((n) => n.chainId === chainId);
+    if (network) {
+      setNetworkName(network.chainName);
+    } else if(!network) {
+      setNetworkName("Unknown Network");
+    }
+  };
+  function handleChainSelect(network: NetworkConfig): void {
+    console.log(`Selected chain: ${network.chainName}`);
+    setNetworkName(network.chainName);
+    switchChain(network.chainId);
     setDropdownOpen(false); // Close the dropdown after selecting a chain
   }
 
@@ -86,8 +96,6 @@ function Navbar() {
       "-=0.3"
     );
   }, [logoRef, buttonRef, navRef]);
-
-
 
   return (
     <nav className="bg-[#121212]" ref={navRef}>
@@ -152,37 +160,34 @@ function Navbar() {
               )}
             </button>
 
-
-            {!isAuthenticated && !isConnected && (
-              <div className="relative text-sm text-gray-300 mr-2 flex">
-                <div className="h-11 w-11 rounded-full bg-amber-500 cursor-pointer flex items-center justify-center">
+            {isAuthenticated && isConnected && (
+              <button
+                className="relative text-sm text-gray-300 mr-2 flex items-center border-2 border-white rounded-full px-3 h-11 cursor-pointer"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <div className="  rounded-full  cursor-pointer flex items-center justify-center">
                   {/* Placeholder for chain icon */}
-                  <span className="text-white font-bold">ETH</span>
+                  <span className="text-white font-[Satoshi-Bold] textsm">{networkName}</span>
                 </div>
-                <button
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white cursor-pointer "
-                >
-                  <FontAwesomeIcon icon={faAngleDown} />
-                </button>
-                {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[#2B2928] rounded-md shadow-lg z-10">
-                    <ul className="py-1">
-                      {["Ethereum", "Sepolia", "Polygon"].map((chain) => (
-                        <li
-                          key={chain}
-                          onClick={() => handleChainSelect(chain)}
-                          className="px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer"
-                        >
-                          {chain}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+                <div className=" flex items-center">
+                  {dropdownOpen && (
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-40 bg-[#2B2928] rounded-2xl shadow-lg z-20 overflow-hidden">
+                      <ul className="py-1">
+                        {SUPPORTED_NETWORKS.map((network) => (
+                          <li
+                            key={network.chainId}
+                            onClick={() => handleChainSelect(network)}
+                            className="px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer"
+                          >
+                            {network.chainName}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </button>
             )}
-
           </div>
         </div>
       </div>

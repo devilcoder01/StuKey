@@ -34,6 +34,7 @@ type WalletContextType = WalletState & {
   switchChain(chainId: string): Promise<boolean>;
   clearError(): void;
   providers: ReturnType<typeof useSyncProviders>;
+  setWalletStateData(walletState: Partial<WalletState>): void;
 };
 
 const defaultState: WalletState = {
@@ -78,6 +79,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     tryRestoreWallet();
   }, [providers]);
 
+  const setWalletStateData = (useCallback((walletState: Partial<WalletState>) => {
+    setState(prev => ({ ...prev, ...walletState }));
+  }, []));
 
   /**
    * Connects the wallet and saves the selected wallet in local storage.
@@ -90,7 +94,6 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const chainId = await provider.provider.request({ method: "eth_chainId" });
 
       localStorage.setItem("selectedWallet", provider.info.name);
-
       setState({
         isWalletConnecting: false,
         error: null,
@@ -168,6 +171,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     };
 
     const onChainChanged = (chainId: string) => {
+      console.log("Chain changed to", chainId);
       setState(prev => ({ ...prev, chainId }));
     };
 
@@ -183,7 +187,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [state.selectedWallet, disconnectWallet]);
 
   return (
-    <WalletContext.Provider value={{ ...state, connectWallet, disconnectWallet, switchChain, clearError, providers }}>
+    <WalletContext.Provider value={{ ...state, connectWallet, disconnectWallet, switchChain, clearError, providers, setWalletStateData }}>
       {children}
     </WalletContext.Provider>
   );

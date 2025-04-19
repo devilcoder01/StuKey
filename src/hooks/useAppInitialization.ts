@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import axios from "axios";
 import { useWallet } from "../context/WalletContext";
 import { useToastNotification } from "./useToastNotification";
@@ -23,45 +23,49 @@ export const useAppInitialization = () => {
   const { userAccount, isConnected } = useWallet();
   const { showError } = useToastNotification();
   const { getScoreandNFT } = useStudentContract();
+  const {chainId} = useWallet();
 
   // Function to fetch user data from backend
-  const fetchUserData = async (walletAddress: string) => {
-    try {
-      const response = await axios.get(`${backendURL}/api/v1/user`, {
-        params: {
-          walletAddress: walletAddress,
-        },
-      });
+  const fetchUserData = useCallback(
+    async (walletAddress: string) => {
+      try {
+        const response = await axios.get(`${backendURL}/api/v1/user`, {
+          params: {
+            walletAddress: walletAddress,
+          },
+        });
 
-      if (response.status === 200 && response.data) {
-        const userData = response.data.user || response.data;
+        if (response.status === 200 && response.data) {
+          const userData = response.data.user || response.data;
 
-        // Update user context with fetched data
-        if (userData) {
+          // Update user context with fetched data
+          if (userData) {
+            setAppInstructorData({
+              username: userData.username || "",
+              email: userData.email || "",
+              githubusername: userData.githubUsername || "",
+            });
+          }
+
+          // If we have users array data structure
+          if (response.data.users && response.data.users[0]) {
+            const user = response.data.users[0];
+            setAppInstructorData({ offChainEngagementScore: user.engagementScore || 0 });
+          }
+
+          return true;
+        } else if (response.status === 204) {
           setAppInstructorData({
-            username: userData.username || "",
-            email: userData.email || "",
-            githubusername: userData.githubUsername || "",
+            isFirstUser: true,
           });
         }
-
-        // If we have users array data structure
-        if (response.data.users && response.data.users[0]) {
-          const user = response.data.users[0];
-          setAppInstructorData({ offChainEngagementScore: user.engagementScore || 0 });
-        }
-
-        return true;
-      } else if (response.status === 204) {
-        setAppInstructorData({
-          isFirstUser: true,
-        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        return false;
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      return false;
-    }
-  };
+    },
+    [setAppInstructorData]
+  );
 
   const CreateUserData = async (username: string) => {
     try {
@@ -90,23 +94,26 @@ export const useAppInitialization = () => {
   };
 
   // Function to fetch blockchain data
-  const fetchBlockchainData = async (walletAddress: string) => {
-    try {
-      const result = await getScoreandNFT(walletAddress);
-      if (result.success) {
-        setAppInstructorData({
-          walletAddress: walletAddress,
-          nftTokenID: result.tokenId,
-          offChainEngagementScore: result.score,
-        });
-        return true;
+  const fetchBlockchainData = useCallback(
+    async (walletAddress: string) => {
+      try {
+        const result = await getScoreandNFT(walletAddress);
+        if (result.success) {
+          setAppInstructorData({
+            walletAddress: walletAddress,
+            nftTokenID: result.tokenId,
+            onChainEngagementScore: result.score,
+          });
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error("Error fetching blockchain data:", error);
+        return false;
       }
-      return false;
-    } catch (error) {
-      console.error("Error fetching blockchain data:", error);
-      return false;
-    }
-  };
+    },
+    [getScoreandNFT, setAppInstructorData]
+  );
 
   // Initialize app data
   useEffect(() => {
@@ -148,7 +155,7 @@ export const useAppInitialization = () => {
     };
 
     initializeApp();
-  }, [isAuthenticated, isConnected, userAccount]);
+  }, [chainId]);
 
   return {
     isInitializing,
