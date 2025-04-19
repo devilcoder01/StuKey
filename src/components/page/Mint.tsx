@@ -16,8 +16,8 @@ function Mint() {
   const { userAccount } = useWallet();
   const [isGithubConnected, setIsGithubConnected] = useState(false);
   const { showSuccess, showError, showInfo } = useToastNotification();
-  const [isEmailConnected, setIsEmailConnected] = useState(false);
-  const [emailAddress, setEmailAddress] = useState<string | null>(null);
+  const [ setIsEmailConnected] = useState(false);
+  const [ setEmailAddress] = useState<string | null>(null);
   const [githubMetrics, setGithubMetrics] = useState<any>(null);
   const [isLoadingGithub, setIsLoadingGithub] = useState(false);
   const [lastScanned, setLastScanned] = useState<Date | null>(null);
@@ -253,29 +253,29 @@ function Mint() {
     }
   };
 
-  // --- Handlers for Email (Example) ---
-  const handleEmailConnect = () => {
-    // Add actual Email connection logic here (e.g., verification flow)
-    console.log("Connecting Email...");
-    showInfo("Initiating email verification process...");
+  // // --- Handlers for Email (Example) ---
+  // const handleEmailConnect = () => {
+  //   // Add actual Email connection logic here (e.g., verification flow)
+  //   console.log("Connecting Email...");
+  //   showInfo("Initiating email verification process...");
 
-    // Simulate email verification process
-    setTimeout(() => {
-      setIsEmailConnected(true);
-      setEmailAddress("user@example.com"); // Replace with actual email after connection
-      showSuccess("Email verified successfully!");
-    }, 1500);
-  };
+  //   // Simulate email verification process
+  //   setTimeout(() => {
+  //     setIsEmailConnected(true);
+  //     setEmailAddress("user@example.com"); // Replace with actual email after connection
+  //     showSuccess("Email verified successfully!");
+  //   }, 1500);
+  // };
 
-  const handleEmailDisconnect = () => {
-    // Add actual Email disconnection logic here
-    console.log("Disconnecting Email...");
-    showInfo("Removing email verification...");
+  // const handleEmailDisconnect = () => {
+  //   // Add actual Email disconnection logic here
+  //   console.log("Disconnecting Email...");
+  //   showInfo("Removing email verification...");
 
-    setIsEmailConnected(false);
-    setEmailAddress(null);
-    showSuccess("Email disconnected successfully");
-  };
+  //   setIsEmailConnected(false);
+  //   setEmailAddress(null);
+  //   showSuccess("Email disconnected successfully");
+  // };
 
   const handleMintNFT = async () => {
     if (!userAccount) {

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faSun, faMoon, faCloudSun, faCloudMoon } from "@fortawesome/free-solid-svg-icons";
+import { faSun, faMoon, faCloudSun, faCloudMoon } from "@fortawesome/free-solid-svg-icons";
 import gsap from "gsap";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 import { useGSAP } from "@gsap/react";

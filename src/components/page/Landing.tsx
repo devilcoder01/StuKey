@@ -1,13 +1,13 @@
 import Herosection from "../ui/Herosection";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAddressCard,
-  faCartShopping,
-  faCircleCheck,
-  faLinkSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import { faPercent } from "@fortawesome/free-solid-svg-icons/faPercent";
-import { gsap } from "gsap";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faAddressCard,
+//   faCartShopping,
+//   faCircleCheck,
+//   faLinkSlash,
+// } from "@fortawesome/free-solid-svg-icons";
+// import { faPercent } from "@fortawesome/free-solid-svg-icons/faPercent";
+// import { gsap } from "gsap";
 import Footer from "../ui/Footer";
 
 function Landing() {

@@ -10,7 +10,7 @@ export const useWalletAuth = () => {
     useWallet();
   const { login, logout } = useSignAuth();
   const [error, setError] = useState<string | null>(null);
-  const { showSuccess, showError, showInfo } = useToastNotification();
+  const { showSuccess, showError } = useToastNotification();
 
   const handleError = (message: string) => {
     setError(message);

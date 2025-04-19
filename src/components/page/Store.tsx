@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import ProductCard from '../ui/ProductCard';
 import Cart from '../ui/Cart';

@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useAppInstuctor } from '../../context/AppInstuctor'; // Assuming this context holds walletAddress and setter
 import { useToastNotification } from '../../hooks/useToastNotification';
 import { useAppInitialization } from '../../hooks/useAppInitialization';
 
-const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+// const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
 
 function FirstUser() {
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { walletAddress, isFirstUser } = useAppInstuctor();
-  const { showSuccess, showError } = useToastNotification();
+  const {  showError } = useToastNotification();
   const { CreateUserData } = useAppInitialization()
 
   if (!isFirstUser) {
