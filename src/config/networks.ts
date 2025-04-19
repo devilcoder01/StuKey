@@ -60,6 +60,18 @@ export const SUPPORTED_NETWORKS: NetworkConfig[] = [
     rpcUrls: ["https://1rpc.io/holeskey"],
     blockExplorerUrls: ["https://holeskey-testnet.monadexplorer.com/"],
     iconUrl: "/icons/holeskey.svg",
+  },
+  {
+    chainId : "0xaa36a7",
+    chainName: "Sepolia Testnet",
+    nativeCurrency: {
+      name: "Holeskey",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://sepolia.infura.io/"],
+    blockExplorerUrls: ["https://sepolia.etherscan.io/"],
+    iconUrl: "/icons/holeskey.svg",
   }
   // Add more networks as needed
 ];

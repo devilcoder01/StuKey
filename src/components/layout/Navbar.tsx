@@ -50,6 +50,7 @@ function Navbar() {
     if (network) {
       setNetworkName(network.chainName);
     } else if(!network) {
+      console.log(network,chainId);
       setNetworkName("Unknown Network");
     }
   };

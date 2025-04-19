@@ -5,7 +5,7 @@ import {Contract} from "web3-eth-contract";
 import { useWallet } from "../context/WalletContext";
 dontenv.config();
 
-const STUDENT_NFT_CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "0x5ad66FB7eB5F036caCdc3D9B624a9405e08Ec24F";
+const STUDENT_NFT_CONTRACT_ADDRESS = process.env.SEPOLIA_CONTRACT_ADDR || "0xc3C1Cc288c285Fb21D2824A645ed51D52D3c4BDc";
 
 // Create a function that returns the contract instance
 export const getContract = (provider: any) => {
