@@ -108,13 +108,13 @@ function Home() {
             Welcome, <span className="font-semibold">{username}</span>
           </h1>
           <div ref={greetingRef} className="flex gap-2 sm:gap-3 items-center">
-            <span className="text-amber-500">
+            {/* <span className="text-amber-500">
               <FontAwesomeIcon
                 icon={greeting.icon || faSun}
-                className="w-6 h-6 sm:w-8 sm:h-8"
-                ref={timeIconRef}
+                className="w-6 h-6 sm:w-10 sm:h-10"
+                
               />
-            </span>
+            </span> */}
             <span className="font-satoshi text-2xl sm:text-3xl md:text-4xl">{greeting.text}</span>
           </div>
           <div ref={statusRef} className="w-full">
