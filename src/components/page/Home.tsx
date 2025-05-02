@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon, faCloudSun, faCloudMoon } from "@fortawesome/free-solid-svg-icons";
 import gsap from "gsap";
 import { useAppInstuctor } from "../../context/AppInstuctor";
