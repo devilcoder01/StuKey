@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Get backend URL from environment variables
-const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+const backendURL = import.meta.env.VITE_BACKEND_URL || "https://stukey-server.vercel.app";
 const API_URL = `${backendURL}/api/v1`;
 
 export const verifySignature = async (message: string, signature: string, address: string) => {
