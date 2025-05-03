@@ -6,7 +6,7 @@ import { scanGithubRepositories } from '../services/githubService';
 dotenv.config();
 
 // GitHub OAuth initialization
-export const initiateGithubAuth = (req: Request, res: Response) => {
+export const initiateGithubAuth = (req: Request, res: Response): void => {
     // Expect walletAddress to be passed as a query parameter from the frontend
     const { walletAddress } = req.query;
 
@@ -24,7 +24,7 @@ export const initiateGithubAuth = (req: Request, res: Response) => {
 };
 
 // GitHub OAuth callback
-export const githubCallback = async (req: Request, res: Response) => {
+export const githubCallback = async (req: Request, res: Response): Promise<void>=> {
     const { code, state } = req.query;
 
     if (!code || typeof code !== 'string') {

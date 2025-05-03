@@ -6,13 +6,11 @@ import User from "../model/user";
 const githubRouter: Router = express.Router();
 
 // GitHub OAuth routes
-githubRouter.get("/auth/github", initiateGithubAuth);
-githubRouter.get("/auth/github/callback", async(req: Request, res: Response) => {
-    await githubCallback(req, res);
-});
+githubRouter.get("/auth/github", initiateGithubAuth as express.RequestHandler);
+githubRouter.get("/auth/github/callback",  githubCallback as express.RequestHandler);
 
 // GitHub disconnection route
-githubRouter.post("/auth/github/disconnect", async (req: Request, res: Response) => {
+githubRouter.post("/auth/github/disconnect", async (req: Request, res: Response): Promise<any> => {
     try {
         const { walletAddress } = req.body;
 
@@ -63,7 +61,7 @@ githubRouter.post("/auth/github/disconnect", async (req: Request, res: Response)
 });
 
 // GitHub scanning and metrics routes
-githubRouter.post("/github/scan", async (req: Request, res: Response) => {
+githubRouter.post("/github/scan", async (req: Request, res: Response): Promise<any>=> {
     try {
         const { walletAddress } = req.body;
 
@@ -98,7 +96,7 @@ githubRouter.post("/github/scan", async (req: Request, res: Response) => {
 });
 
 // Get GitHub metrics for a user
-githubRouter.get("/github/metrics", async (req: Request, res: Response) => {
+githubRouter.get("/github/metrics", async (req: Request, res: Response): Promise<any> => {
     try {
         const { walletAddress } = req.query;
 

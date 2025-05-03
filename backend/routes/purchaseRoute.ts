@@ -4,7 +4,7 @@ import { completePurchase, getPurchaseHistory } from "../controllers/purchaseCon
 const purchaseRouter: Router = express.Router();
 
 // Complete purchase (move items from cart to purchase history)
-purchaseRouter.post("/purchase/:userID", completePurchase);
+purchaseRouter.post("/purchase/:userID", completePurchase as express.RequestHandler);
 
 // Get user's purchase history
 purchaseRouter.get("/purchase/:userID", getPurchaseHistory);
