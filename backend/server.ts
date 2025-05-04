@@ -17,6 +17,9 @@ const limiter = rateLimit({
     max: 100, // limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
+app.get("/testing", (req: Request, res: Response) => {
+    res.send("server is running");
+});
 
 app.use(express.json());
 app.use(limiter as any);
@@ -35,7 +38,6 @@ app.use("/api/v1/", userRouter);
 app.use("/api/v1/", productRouter);
 app.use("/api/v1/", cartRouter);
 app.use("/api/v1/", purchaseRouter);
-
 
 
 const main = async () => {
