@@ -8,6 +8,8 @@ import githubRouter from "./routes/githubRoute";
 import productRouter from "./routes/productRoute";
 import cartRouter from "./routes/cartRoute";
 import purchaseRouter from "./routes/purchaseRoute";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const logger = createLogger('server');
@@ -42,7 +44,7 @@ app.use("/api/v1/", purchaseRouter);
 
 const main = async () => {
     await connectDB();
-    app.listen(5555, () => {
+    app.listen(process.env.PORT || 5555, () => {
         console.log("Server is running on port 5555");
     });
 
