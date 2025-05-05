@@ -17,8 +17,15 @@ const limiter = rateLimit({
     max: 100, // limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
-app.get("/testing", (req: Request, res: Response) => {
-    res.send("server is running");
+
+// Test route
+app.get("/api/testing", (_req: Request, res: Response) => {
+    res.json({ message: "API is running" });
+});
+
+// Root route for Vercel health check
+app.get("/", (_req: Request, res: Response) => {
+    res.json({ status: "ok", message: "Server is running" });
 });
 
 app.use(express.json());
@@ -39,14 +46,21 @@ app.use("/api/v1/", productRouter);
 app.use("/api/v1/", cartRouter);
 app.use("/api/v1/", purchaseRouter);
 
-
-const main = async () => {
-    await connectDB();
-    app.listen(5555, () => {
-        console.log("Server is running on port 5555");
-    });
-
+// Connect to database when in development mode
+if (process.env.NODE_ENV !== 'production') {
+    const main = async () => {
+        await connectDB();
+        const PORT = process.env.PORT || 5555;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    };
+    main();
+} else {
+    // In production (Vercel), connect to DB but don't start server
+    connectDB().catch(err => console.error('Failed to connect to database:', err));
 }
 
-main();
+// Export the Express app for Vercel
+export default app;
 

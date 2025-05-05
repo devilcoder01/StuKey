@@ -1,11 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "jest",
     "start": "ts-node-dev --respawn --transpile-only server.ts",
-    "build": "tsc --outDir public",
+    "build": "tsc --outDir dist",
     "dev": "ts-node-dev --respawn --transpile-only server.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
