@@ -16,6 +16,46 @@
       "dest": "/api/testing.ts"
     },
     {
+      "src": "/api/v1/auth/github/callback",
+      "dest": "/api/v1/auth/github/callback.ts"
+    },
+    {
+      "src": "/api/v1/auth/github/disconnect",
+      "dest": "/api/v1/auth/github/disconnect.ts"
+    },
+    {
+      "src": "/api/v1/auth/github",
+      "dest": "/api/v1/auth/github.ts"
+    },
+    {
+      "src": "/api/v1/github/scan",
+      "dest": "/api/v1/github/scan.ts"
+    },
+    {
+      "src": "/api/v1/github/metrics",
+      "dest": "/api/v1/github/metrics.ts"
+    },
+    {
+      "src": "/api/v1/products(.*)",
+      "dest": "/api/v1/products.ts"
+    },
+    {
+      "src": "/api/v1/cart(.*)",
+      "dest": "/api/v1/cart.ts"
+    },
+    {
+      "src": "/api/v1/purchase(.*)",
+      "dest": "/api/v1/purchase.ts"
+    },
+    {
+      "src": "/api/v1/user(.*)",
+      "dest": "/api/v1/user.ts"
+    },
+    {
+      "src": "/api/v1/(.*)",
+      "dest": "/api/v1/[...path].ts"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
