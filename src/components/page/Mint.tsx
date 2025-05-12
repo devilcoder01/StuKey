@@ -146,7 +146,7 @@ function Mint() {
 
     setIsLoadingGithub(true);
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://stukey-server.vercel.app";
       const response = await axios.get(`${backendUrl}/api/v1/github/metrics`, {
         params: { walletAddress: userAccount }
       });
@@ -177,7 +177,7 @@ function Mint() {
     showInfo("Scanning GitHub repositories...");
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://stukey-server.vercel.app";
       const response = await axios.post(`${backendUrl}/api/v1/github/scan`, {
         walletAddress: userAccount
       });
@@ -208,7 +208,7 @@ function Mint() {
     }
     showInfo("Redirecting to GitHub for authentication...");
     // Construct the URL with the walletAddress as a query parameter
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555"; // Use environment variable or default
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://stukey-server.vercel.app"; // Use environment variable or default
     const githubAuthUrl = `${backendUrl}/api/v1/auth/github?walletAddress=${encodeURIComponent(userAccount)}`;
     window.location.href = githubAuthUrl;
   };
@@ -223,7 +223,7 @@ function Mint() {
       setIsLoadingGithub(true);
       showInfo("Disconnecting GitHub account...");
 
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://stukey-server.vercel.app";
       const response = await axios.post(`${backendUrl}/api/v1/auth/github/disconnect`, {
         walletAddress: userAccount
       });

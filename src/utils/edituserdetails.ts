@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Get backend URL from environment variables
-const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+const backendURL = import.meta.env.VITE_BACKEND_URL || "https://stukey-server.vercel.app";
 
 /**
  * Updates the username for a user

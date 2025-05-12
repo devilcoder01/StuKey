@@ -10,7 +10,7 @@ import { useToastNotification } from "../../hooks/useToastNotification";
 import { useAppInstuctor } from "../../context/AppInstuctor";
 
 // Get backend URL from environment variables
-const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5555";
+const backendURL = import.meta.env.VITE_BACKEND_URL || "https://stukey-server.vercel.app";
 
 function SignMessage() {
   const { userAccount, selectedWallet } = useWallet();
