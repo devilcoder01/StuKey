@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import app from '../../../../server';
+import app from '../../server';
 
-// This handler forwards GitHub disconnect requests to the Express app
+// This handler forwards all shopping-related requests to the Express app
+// Handles: /api/v1/products, /api/v1/cart, /api/v1/purchase
 export default function handler(req: Request, res: Response) {
   // Forward the request to the Express app
   return app(req, res);
